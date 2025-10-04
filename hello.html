@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>استعيد توازنك</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand1: '#f8fafc',   /* خلفية فاتحة */
+            brand2: '#168dfa',   /* الأزرق الأساسي */
+            brand3: '#40E0D0',   /* الفيروزي */
+            brand4: '#065e63',   /* الإيميرالد */
+            white: '#ffffff'
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+          },
+          keyframes: {
+            pop: { '0%': { transform:'scale(1)' }, '50%': { transform:'scale(0.95)' }, '100%': { transform:'scale(1)' } }
+          },
+          animation: {
+            pop: 'pop .2s ease-out'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-brand1 text-brand2 font-cairo antialiased flex flex-col">
+
+  <header class="flex-1 flex flex-col items-center justify-center px-6 pt-8">
+    <img src="assets/boy.png" alt="استعيد توازنك"
+         class="w-60 h-auto select-none pointer-events-none" draggable="false"/>
+    <h1 class="mt-6 text-3xl font-bold text-brand2">استعيد توازنك</h1>
+    <p class="mt-1 text-sm tracking-widest text-gray-500">REGAIN YOUR BALANCE</p>
+  </header>
+
+  <main class="relative w-full h-[320px] mt-auto flex flex-col justify-end">
+    <div class="absolute inset-0 z-0">
+      <!-- Background gradient -->
+      <div class="absolute bottom-0 w-full h-[280px] bg-gradient-to-r from-brand2 via-brand3 to-brand4" 
+           style="clip-path: ellipse(120% 100% at 50% 100%);"></div>
+      
+      <div class="absolute bottom-[170px] left-1/2 -translate-x-1/2 w-24 h-24 bg-brand2 rounded-full flex items-center justify-center border-8 border-white">
+        <i class="fas fa-stopwatch text-5xl text-white"></i>
+      </div>
+
+      <!-- <div class="absolute bottom-[200px] left-8">
+        <i class="fas fa-dumbbell text-4xl text-brand3 opacity-80 -rotate-45"></i>
+      </div>
+
+      <div class="absolute bottom-[200px] right-8">
+        <i class="fas fa-dumbbell text-4xl text-brand3 opacity-80 rotate-45"></i>
+      </div> -->
+
+    </div>
+
+    <div class="relative z-10 w-full px-6 flex flex-col gap-4 pb-10">
+      <button id="loginBtn"
+        class="w-full py-3 rounded-full text-lg font-semibold text-brand2 bg-white
+               shadow-md hover:shadow-lg active:animate-pop transition-all">
+        الاختبار أولا
+      </button>
+
+      <button id="signupBtn"
+        class="w-full py-3 rounded-full text-lg font-semibold text-white 
+               bg-gradient-to-r from-brand2 to-brand3
+               shadow-md hover:shadow-lg active:animate-pop transition-all">
+        تخطي الاختبار والذهاب للصفحة الرئيسية
+      </button>
+    </div>
+  </main>
+
+  <script>
+    const addClickPulse = (el) => {
+      el.classList.add('animate-pop');
+      setTimeout(() => el.classList.remove('animate-pop'), 200);
+    };
+
+    const loginButton = document.getElementById("loginBtn");
+    const signupButton = document.getElementById("signupBtn");
+
+    loginButton.addEventListener("click", function() {
+      addClickPulse(this);
+      window.location.href = "test.html";
+    });
+
+    signupButton.addEventListener("click", function() {
+      addClickPulse(this);
+      window.location.href = "home.html";
+    });
+  </script>
+</body>
+</html>

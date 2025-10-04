@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>اتخاذ القرار</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .timer-wrap { width: 220px; height: 220px; }
+    @media (max-width:420px){ .timer-wrap { width: 200px; height: 200px; } }
+
+    /* زر أساسي */
+    .btn-primary {
+      background: linear-gradient(90deg,#08757c,#2bb39b);
+      color: white;
+    }
+    .btn-primary:hover { background: linear-gradient(90deg,#065e63,#26a089); }
+
+    .confetti-icon { font-size: 3rem; }
+    .confetti-left { transform: rotate(-70deg); }
+    .confetti-right { transform: rotate(0deg); }
+
+    /* أنيميشن النصيحة */
+    .advice-enter {
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeSlideIn 1s ease-out forwards;
+    }
+    @keyframes fadeSlideIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* اهتزاز العداد */
+    .shake {
+      animation: shakeAnim 0.4s ease-in-out infinite;
+    }
+    @keyframes shakeAnim {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#e8f7f7] via-[#f6fffc] to-[#e6f2ff]">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 shadow-sm">
+    <button onclick="window.location.href='decis1.html'" class="text-[#08757c] font-semibold">
+      ← رجوع
+    </button>
+    <h1 class="text-lg font-bold text-gray-800">مدرب اتخاذ القرار</h1>
+    <div class="w-12"></div>
+  </header>
+
+  <main class="max-w-md mx-auto p-6">
+
+    <!-- صندوق النصيحة -->
+    <div class="bg-[#08757c]/95 text-white rounded-xl px-4 py-3 mb-6 shadow text-center advice-enter">
+      <p class="font-semibold text-lg">🚀 ثق بحدثك!</p>
+      <p class="text-sm opacity-90">القرارات المحكمة تؤدي إلى نتائج أفضل</p>
+    </div>
+
+    <!-- Countdown -->
+    <div class="flex justify-center mb-6">
+      <div id="timerBox" class="timer-wrap relative flex items-center justify-center">
+        <svg viewBox="0 0 120 120" class="absolute w-full h-full">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" x2="100%">
+              <stop offset="0%" stop-color="#08757c"/>
+              <stop offset="100%" stop-color="#2bb39b"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="50" stroke="#d6eeee" stroke-width="6" fill="none"/>
+          <circle id="ring" cx="60" cy="60" r="50" stroke="url(#ringGrad)" stroke-width="6" fill="none" stroke-linecap="round" transform="rotate(-90 60 60)" />
+          <circle cx="60" cy="60" r="44" stroke="rgba(8,117,124,0.08)" stroke-width="1" fill="white"/>
+        </svg>
+        <div class="absolute text-center">
+          <div id="timerNumber" class="text-5xl font-bold text-slate-800 leading-none">15</div>
+          <div class="text-sm text-[#08757c] mt-1">ثانية</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decision card -->
+    <div id="decisionCard" class="bg-white rounded-xl p-4 shadow text-center border border-[#e6f3f3]"></div>
+
+    <!-- Buttons -->
+    <div class="mt-6 flex gap-4">
+      <button id="yesBtn" class="flex-1 btn-primary rounded py-3">نعم</button>
+      <button id="noBtn" class="flex-1 btn-primary rounded py-3">لا</button>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button id="backBtn" class="text-[#08757c] font-semibold">رجوع للقائمة</button>
+    </div>
+  </main>
+
+  <!-- Celebration Popup -->
+  <div id="celebrationModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-8 w-96 text-center relative overflow-hidden shadow-xl">
+      <div class="absolute left-4 bottom-4 confetti-icon confetti-left">🎉</div>
+      <div class="absolute right-4 bottom-4 confetti-icon confetti-right">🎉</div>
+      <h2 id="celebrationTitle" class="text-3xl font-extrabold mb-3 text-[#08757c]"></h2>
+      <p id="celebrationResult" class="text-lg text-gray-700 mb-3"></p>
+      <p id="celebrationQuote" class="text-sm text-gray-500 italic"></p>
+      <canvas id="confettiCanvas" class="absolute inset-0 pointer-events-none"></canvas>
+    </div>
+  </div>
+
+  <audio id="celebrationSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8b0e52f5d7.mp3?filename=short-success-sound-glockenspiel-treasure-video-game-6346.mp3"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // LocalStorage utils
+    function setItemWithExpiry(key, value) {
+      const now = new Date();
+      const expiry = now.getTime() + 7*24*60*60*1000;
+      const item = { value, expiry };
+      localStorage.setItem(key, JSON.stringify(item));
+    }
+    function getItemWithExpiry(key) {
+      const itemStr = localStorage.getItem(key);
+      if (!itemStr) return null;
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return item.value;
+    }
+    function getDecisions(){ return getItemWithExpiry("decisions") || []; }
+    function setDecisions(list){ setItemWithExpiry("decisions", list); }
+
+    // Render decision
+    const card=document.getElementById("decisionCard");
+    const idx=parseInt(localStorage.getItem("currentDecision")||"-1");
+    const data=getDecisions();
+    if(idx>=0 && idx<data.length){
+      const d=data[idx];
+      card.innerHTML=`<h2 class="text-lg font-semibold mb-2 text-[#08757c]">${d.title}</h2><p class="text-gray-500">${d.type}</p>`;
+    }else{
+      card.textContent="لا يوجد قرار محدد";
+    }
+
+    // Countdown
+    let duration=15;
+    const timerNumber=document.getElementById("timerNumber");
+    const ring=document.getElementById("ring");
+    const timerBox=document.getElementById("timerBox");
+    const R=50, circumference=2*Math.PI*R;
+    ring.style.strokeDasharray=circumference;
+    ring.style.strokeDashoffset=circumference;
+
+    function startTimer(){
+      let start=null;
+      function animate(ts){
+        if(!start) start=ts;
+        const elapsed=(ts-start)/1000;
+        const remaining=Math.max(0,duration-elapsed);
+        timerNumber.textContent=Math.ceil(remaining);
+        const progress=Math.min(1,elapsed/duration);
+        ring.style.strokeDashoffset=circumference*(1-progress);
+
+        if(remaining <= 2 && remaining > 0){
+          timerBox.classList.add("shake");
+        }
+
+        if(remaining>0){ requestAnimationFrame(animate); }
+        else{ timeOut(); }
+      }
+      requestAnimationFrame(animate);
+    }
+    startTimer();
+
+    // Quotes
+    const quotes=[
+      "خطوة صغيرة أفضل من التردد الطويل.",
+      "التشتت طبيعي.. لكن القرار هو قوتك.",
+      "كل قرار هو تدريب لعقلك على الإنجاز.",
+      "التركيز يبدأ بخطوة، والخطوة تبدأ بقرار.",
+      "لا تنتظر الكمال.. تحرك الآن.",
+    ];
+
+    // Celebration
+    function showCelebration(decisionTitle, resultText){
+      const modal=document.getElementById("celebrationModal");
+      document.getElementById("celebrationTitle").textContent=decisionTitle;
+      document.getElementById("celebrationResult").textContent="قرارك: "+resultText;
+      document.getElementById("celebrationQuote").textContent=quotes[Math.floor(Math.random()*quotes.length)];
+      modal.classList.remove("hidden");
+      document.getElementById("celebrationSound").play();
+
+      const duration = 2*1000;
+      const end = Date.now() + duration;
+      (function frame(){
+        confetti({ particleCount: 8, angle: 60, spread: 50, origin: { x: 0, y: 1 } });
+        confetti({ particleCount: 8, angle: 120, spread: 50, origin: { x: 1, y: 1 } });
+        if(Date.now() < end) requestAnimationFrame(frame);
+      })();
+
+      setTimeout(()=>window.location.href="decis1.html",2500);
+    }
+
+    // Time out
+    function timeOut(){
+      if(idx>=0 && data[idx]){
+        data[idx].status="expired";
+        setDecisions(data);
+      }
+      alert("انتهى الوقت! لم يتم اتخاذ القرار.");
+      window.location.href="decis1.html";
+    }
+
+    // Yes / No buttons
+    document.getElementById("yesBtn").onclick=()=>{ if(idx>=0 && data[idx]){ const title=data[idx].title; data.splice(idx,1); setDecisions(data); showCelebration(title,"نعم"); } };
+    document.getElementById("noBtn").onclick=()=>{ if(idx>=0 && data[idx]){ const title=data[idx].title; data.splice(idx,1); setDecisions(data); showCelebration(title,"لا"); } };
+
+    // Back button
+    document.getElementById("backBtn").onclick=()=>window.location.href="decis1.html";
+  </script>
+</body>
+</html>

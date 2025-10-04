@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نتيجة التقييم</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .main-color { color: #08757c; }
+    .bg-main { background-color: #08757c; }
+    .hover-bg-main:hover { background-color: #065e63; }
+    .fade-in { opacity: 0; transform: translateY(10px); animation: fadeIn 1s ease-out forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex items-center justify-center min-h-screen p-4">
+  <div id="resultCard" class="bg-white p-8 rounded-2xl shadow-2xl max-w-3xl w-full">
+    <h1 class="text-3xl font-bold text-center main-color mb-6">نتيجة التقييم</h1>
+    <div id="results" class="space-y-6 text-lg"></div>
+    <div id="details" class="space-y-4 mt-8"></div>
+
+    <div class="flex justify-center gap-4 mt-8">
+      <a href="Home.html"
+         class="bg-main text-white px-6 py-2 rounded-xl shadow hover-bg-main transition">
+        العودة للرئيسية
+      </a>
+      <button id="shareBtn" class="px-6 py-2 border rounded-xl hover:bg-gray-100 transition">مشاركة</button>
+      <button id="downloadBtn" class="px-6 py-2 border rounded-xl hover:bg-gray-100 transition">تنزيل كصورة</button>
+    </div>
+  </div>
+
+  <script>
+    // تحميل الإجابات
+    const responses = [];
+    for (let i = 1; i <= 6; i++) {
+      const val = localStorage.getItem("q" + i);
+      responses.push(val !== null ? parseInt(val) : null);
+    }
+
+    // النصوص المقابلة لكل سؤال
+    const questions = [
+      "1. هل تواجه صعوبة في إنهاء التفاصيل بعد الانتهاء من الجزء الرئيسي من المهمة؟",
+      "2. هل تجد صعوبة في تنظيم المهام عند القيام بعمل يتطلب ترتيب؟",
+      "3. هل تواجه مشاكل في تذكر المواعيد أو الالتزامات؟",
+      "4. عندما يكون لديك مهمة تتطلب الكثير من التفكير، هل تتجنبها أو تؤجلها؟",
+      "5. هل تشعر بالقلق أو التململ عند الجلوس لفترة طويلة؟",
+      "6. هل تقاطع الآخرين قبل انتهاء حديثهم أو تكمل جملهم؟"
+    ];
+
+    // تحويل الأرقام إلى نص
+    const scaleText = ["أبداً", "نادراً", "أحياناً", "غالباً", "دائمًا تقريبًا"];
+
+    // الدالة للتحقق من الإيجابية
+    function isPositive(index, val) {
+      if (val === null) return false;
+      if ([0,1,2].includes(index)) return val >= 2; // أول 3
+      if ([3,4,5].includes(index)) return val >= 3; // 4-6
+      return false;
+    }
+
+    // الحساب
+    const positives = responses.filter((val, idx) => isPositive(idx, val)).length;
+    const whoHigh = positives >= 4;
+    const whoResult = whoHigh
+      ? "النتيجة (WHO-ASRS): هناك احتمال مرتفع لوجود ADHD"
+      : "النتيجة (WHO-ASRS): لا يظهر احتمال مرتفع لوجود ADHD";
+
+    const answered = responses.filter(v => v !== null);
+    const totalScore = answered.reduce((a, b) => a + b, 0);
+    const percentage = ((totalScore / (answered.length * 4)) * 100).toFixed(1);
+    const summary = `أجبت على ${answered.length} من 6 أسئلة. مجموع نقاطك = ${totalScore} من ${answered.length * 4}.`;
+
+    localStorage.setItem("whoResult", whoResult);
+
+    let adviceBox = "";
+    if (whoHigh) {
+      adviceBox = `
+        <div class="p-4 bg-green-50 border-r-4 border-green-500 rounded-lg fade-in" style="animation-delay:0.6s">
+          <p class="text-green-800 font-semibold">تنويه هام:</p>
+          <p class="text-green-700">تشير نتيجتك إلى احتمال مرتفع لوجود أعراض اضطراب فرط الحركة وتشتت الانتباه (ADHD).
+          نوصيك بمراجعة طبيب نفسي أو أخصائي صحة نفسية لتقييم شامل ودقيق.</p>
+        </div>
+      `;
+    }
+
+    // عرض النتائج الأساسية
+    document.getElementById("results").innerHTML = `
+      <p class="p-4 bg-gray-100 border-r-4 border-[#08757c] rounded-lg fade-in" style="animation-delay:0.2s">${whoResult}</p>
+      <p class="p-4 bg-gray-50 border rounded-lg text-gray-700 fade-in" style="animation-delay:0.5s">${summary}</p>
+      ${adviceBox}
+    `;
+
+    // تفاصيل كل سؤال
+    let detailHTML = "";
+    responses.forEach((val, idx) => {
+      if (val === null) return;
+      const positive = isPositive(idx, val);
+      detailHTML += `
+        <div class="p-4 rounded-lg border fade-in ${positive ? 'bg-green-50 border-green-400' : 'bg-red-50 border-red-400'}">
+          <p class="font-semibold">${questions[idx]}</p>
+          <p class="mt-2">إجابتك: <span class="font-bold">${scaleText[val]}</span></p>
+          <p class="mt-1 ${positive ? 'text-green-700' : 'text-red-700'}">
+            ${positive ? 'إيجابي ✅' : 'غير إيجابي ❌'}
+          </p>
+        </div>
+      `;
+    });
+    document.getElementById("details").innerHTML = detailHTML;
+
+    // مشاركة
+    document.getElementById("shareBtn").addEventListener("click", async () => {
+      const text = whoResult + " | " ;
+      if (navigator.share) {
+        await navigator.share({ title: "نتيجة تقييمي", text: text });
+      } else {
+        alert("خاصية المشاركة غير مدعومة على هذا المتصفح.");
+      }
+    });
+
+    // تنزيل كصورة
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const node = document.getElementById("resultCard");
+      domtoimage.toPng(node)
+        .then(function (dataUrl) {
+          const link = document.createElement('a');
+          link.download = 'adhd-result.png';
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch(function (error) {
+          console.error('خطأ أثناء إنشاء الصورة!', error);
+        });
+    });
+  </script>
+</body>
+</html>

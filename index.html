@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اتزان | Splash</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* أنيميشن ظهور واختفاء */
+    .fade-in {
+      animation: fadeIn 1s ease forwards;
+    }
+    .fade-out {
+      animation: fadeOut 0.8s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(1.1); }
+    }
+  </style>
+</head>
+<body class="bg-white h-screen flex items-center justify-center">
+
+  <!-- Splash screen -->
+  <div id="splash" class="flex flex-col items-center justify-center">
+    <img src="assets/logo.png" alt="logo" class="w-40 h-40 fade-in">
+  </div>
+
+  <!-- شاشة التحميل -->
+  <div id="loading" class="hidden flex-col items-center justify-center">
+    <div class="w-10 h-10 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+    <p class="mt-3 text-gray-600">جاري التحميل...</p>
+  </div>
+
+  <script>
+    const splash = document.getElementById("splash");
+    const loading = document.getElementById("loading");
+    const logo = splash.querySelector("img");
+
+    // بعد 1.2 ثانية يبدأ يختفي اللوجو
+    setTimeout(() => {
+      logo.classList.add("fade-out");
+    }, 1200);
+
+    // بعد 2 ثانية → اخفي السبلاتش واعرض التحميل
+    setTimeout(() => {
+      splash.style.display = "none";
+      loading.classList.remove("hidden");
+      loading.classList.add("flex");
+    }, 2000);
+
+    // بعد ثانية تحميل → انتقل للصفحة التانية
+    setTimeout(() => {
+      window.location.href = "hello.html";
+    }, 3000);
+  </script>
+</body>
+</html>

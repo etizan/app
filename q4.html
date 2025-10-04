@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>السؤال 4</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .bg-main { background-color: #168dfa; }
+    .hover-bg-main:hover { background-color: #1273c7; }
+    .selected { border-color: #168dfa; background-color: #f0f9ff; }
+  </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-2xl w-full">
+    <!-- Progress Bar -->
+    <div class="mb-4">
+      <div class="w-full bg-gray-200 rounded-full h-2.5">
+        <div class="bg-main h-2.5 rounded-full" style="width: 66.6%"></div>
+      </div>
+      <p class="text-sm text-gray-600 mt-2 text-center">السؤال 4 من 6</p>
+    </div>
+
+    <!-- Question -->
+    <h1 class="text-2xl font-bold text-[#168dfa] mb-6">
+      لما يكون عندك حاجة محتاجة تفكير عميق، قد إيه بتأجّل أو بتكسل تبدأ فيها؟
+    </h1>
+
+    <!-- Options -->
+    <div class="grid gap-4 mb-6" id="options">
+      <label class="p-4 border rounded-lg cursor-pointer hover:bg-gray-50" data-value="0">أبداً</label>
+      <label class="p-4 border rounded-lg cursor-pointer hover:bg-gray-50" data-value="1">نادراً</label>
+      <label class="p-4 border rounded-lg cursor-pointer hover:bg-gray-50" data-value="2">أحياناً</label>
+      <label class="p-4 border rounded-lg cursor-pointer hover:bg-gray-50" data-value="3">غالباً</label>
+      <label class="p-4 border rounded-lg cursor-pointer hover:bg-gray-50" data-value="4">في كثير من الأحيان</label>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex justify-between">
+      <a href="q3.html" class="px-6 py-2 border rounded-xl hover:bg-gray-100 transition">للخلف</a>
+      <button id="nextBtn" class="px-6 py-2 rounded-xl bg-main text-white shadow opacity-50 cursor-not-allowed transition" disabled>التالي</button>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const options = document.querySelectorAll("#options label");
+    const nextBtn = document.getElementById("nextBtn");
+    let selectedValue = null;
+
+    options.forEach(option => {
+      option.addEventListener("click", () => {
+        options.forEach(o => o.classList.remove("selected"));
+        option.classList.add("selected");
+        selectedValue = option.getAttribute("data-value");
+        nextBtn.disabled = false;
+        nextBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (selectedValue !== null) {
+        localStorage.setItem("q4", selectedValue);
+        window.location.href = "q5.html";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>لوحة التحكم</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body{background:#f8fafc;-webkit-font-smoothing:antialiased;
+      font-family: 'Cairo', sans-serif;
+        }
+    .device{width:390px;min-height:844px;margin:20px auto;}
+    .progress-track{background:rgba(255,255,255,0.3);height:10px;border-radius:999px}
+    .progress-bar{height:10px;border-radius:999px;width:0%;transition:width 0.5s ease;}
+    .card-shadow{box-shadow:0 8px 18px rgba(16,24,40,0.08);}
+    .nav-item.active{color:#168dfa;} /* الأزرق الأساسي */
+
+    /* Popup */
+    .popup-overlay{
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,0.4);display:none;
+      align-items:center;justify-content:center;z-index:100;
+    }
+    .popup-box{
+      background:white;padding:20px;border-radius:16px;
+      max-width:300px;width:85%;text-align:center;
+      transform:scale(0.7);opacity:0;
+      transition:all 0.3s ease;
+    }
+    .popup-box.show{transform:scale(1);opacity:1;}
+  </style>
+</head>
+<body>
+  <div class="device">
+    <div class="max-w-[390px] mx-auto bg-white rounded-2xl overflow-hidden">
+
+      <!-- Header -->
+      <header class="bg-gradient-to-r from-[#00a1ff] to-[#065e63] p-4 text-white">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3 rtl:space-x-reverse">
+              </div>
+            </a>
+            <div class="text-right">
+              <div class="text-lg font-semibold">مستخدم مجهول</div>
+              <span id="adhdResult"> احتمالية فرط الحركة : (هنا النتيجة )</span>
+            </div>
+          </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Body -->
+      <main class="p-4 space-y-4">
+        <h2 class="text-right font-bold text-lg">التقدم اليومي</h2>
+
+        <!-- progress cards -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-xl p-4 card-shadow bg-gradient-to-br from-[#e6f4ff] to-[#ddebfe]">
+            <div class="flex items-center justify-between">
+              <div id="tasksPercent" class="text-lg font-semibold">0%</div>
+              <div class="text-sm opacity-70">المهام اليومية</div>
+            </div>
+            <div class="mt-2 progress-track bg-white/60">
+              <div id="tasksBar" class="progress-bar bg-[#168dfa]"></div>
+            </div>
+          </div>
+          <div class="rounded-xl p-4 card-shadow bg-gradient-to-br from-[#dcfce7] to-[#eefdf3]">
+            <div class="flex items-center justify-between">
+              <div id="challengesPercent" class="text-lg font-semibold">0%</div>
+              <div class="text-sm opacity-70">القرارات</div>
+            </div>
+            <div class="mt-2 progress-track bg-white/60">
+              <div id="challengesBar" class="progress-bar bg-[#065e63]"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="space-y-3">
+          <button onclick="window.location.href='schedule.html'" class="w-full rounded-xl p-4 h-16 bg-[#168dfa] text-white card-shadow transition transform active:scale-95">اضبط جدولك</button>
+          <button id="motivate" class="w-full rounded-xl p-4 h-16 bg-gradient-to-r from-[#00a1ff] to-[#065e63] text-white card-shadow transition transform active:scale-95">حفزني</button>
+        </div>
+
+        <!-- جدول اليوم card -->
+        <div class="rounded-2xl p-4 bg-white card-shadow">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-lg font-bold">جدول اليوم</div>
+            <a href="schedule.html" class="text-gray-400 transition transform active:scale-90">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z"/>
+              </svg>
+            </a>
+          </div>
+          <div id="schedulePreview" class="space-y-3 text-sm text-gray-500">
+            <p>تحميل المهام...</p>
+          </div>
+        </div>
+
+        <!-- مشاكل وحلول -->
+        <div onclick="window.location.href='decis1.html'" class="rounded-xl p-4 bg-gradient-to-r from-[#168dfa] to-[#00a1ff] text-white flex items-center justify-between card-shadow transition transform hover:scale-90 active:scale-70">
+          <div class="text-right">
+            <div class="font-bold">اتخذ قرار! </div>
+            <div class="text-sm opacity-90">متحير في قرار احسمه الان</div>
+          </div>
+          <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+          </div>
+        </div>
+ 
+<!-- Navbar -->
+<nav class="mt-6 bg-white border-t border-gray-200 shadow-md rounded-xl">
+  <div class="flex justify-around py-2">
+    <!-- الرئيسية -->
+    <a href="home.html" class="flex flex-col items-center text-gray-600 hover:text-[#168dfa]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 9.75L12 4l9 5.75V20a2 2 0 01-2 2H5a2 2 0 01-2-2V9.75z" />
+      </svg>
+      <span class="text-xs">الرئيسية</span>
+    </a>
+
+    <!-- اتخذ قرار -->
+    <a href="decis1.html" class="flex flex-col items-center text-gray-600 hover:text-[#168dfa]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m-8 6l4 4 4-4" />
+      </svg>
+      <span class="text-xs">اتخذ قرار</span>
+    </a>
+
+    <!-- بومودورو -->
+    <a href="pomodoro.html" class="flex flex-col items-center text-gray-600 hover:text-[#168dfa]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="text-xs">بومودورو</span>
+    </a>
+
+    <!-- الجدول -->
+    <a href="schedule.html" class="flex flex-col items-center text-gray-600 hover:text-[#168dfa]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M4 11h16M4 19h16M5 7h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2z" />
+      </svg>
+      <span class="text-xs">الجدول</span>
+    </a>
+
+    <!-- نتيجة الاختبار -->
+    <a href="results.html" class="flex flex-col items-center text-gray-600 hover:text-[#168dfa]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="text-xs">النتيجة</span>
+    </a>
+  </div>
+</nav>
+ 
+
+<!-- Popup Motivational -->
+<div id="popup" class="popup-overlay">
+  <div class="popup-box">
+    <p id="quoteText" class="mb-4 text-gray-700"></p>
+    <button onclick="closePopup()" class="px-4 py-2 bg-[#00a1ff] text-white rounded-lg">إغلاق</button>
+  </div>
+</div> 
+
+<script>
+  const quotes = [
+    "خذ الأمور خطوة بخطوة، ليس عليك إنجاز كل شيء دفعة واحدة.",
+    "التنظيم يساعدك على السيطرة، ولو بخطوات صغيرة.",
+    "الراحة جزء من الإنتاجية، لا تنس أن تعطي نفسك وقتًا.",
+    "أنت قادر على الإنجاز، فقط قسم المهام واجعلها أبسط."
+  ];
+
+  const popup = document.getElementById("popup");
+  const quoteText = document.getElementById("quoteText");
+
+  document.getElementById("motivate").addEventListener("click", ()=>{
+    const q = quotes[Math.floor(Math.random()*quotes.length)];
+    quoteText.textContent = q;
+    popup.style.display = "flex";
+    setTimeout(()=> document.querySelector(".popup-box").classList.add("show"), 50);
+  });
+
+  function closePopup(){
+    document.querySelector(".popup-box").classList.remove("show");
+    setTimeout(()=> popup.style.display="none", 300);
+  }
+
+  // حساب التقدم
+  (function(){
+    const LS_KEY = "dailySchedule_v2";
+    const today = new Date().toISOString().slice(0,10);
+    const preview = document.getElementById("schedulePreview");
+    const percentEl = document.getElementById("tasksPercent");
+    const barEl = document.getElementById("tasksBar");
+
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw){ 
+      preview.innerHTML = "<p>لا توجد مهام حتى الآن</p>"; 
+      percentEl.textContent="0%"; 
+      return; 
+    }
+
+    const parsed = JSON.parse(raw);
+    if(parsed.date !== today || !parsed.items || parsed.items.length===0){
+      preview.innerHTML = "<p>لا توجد مهام حتى الآن</p>"; 
+      percentEl.textContent="0%"; 
+      return;
+    }
+
+    const tasks = parsed.items.sort((a,b)=>a.time.localeCompare(b.time)).slice(0,3);
+    preview.innerHTML = tasks.map(it=>`
+      <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+        <div class="text-right">
+          <div class="font-semibold text-md">${it.title}</div>
+          <div class="text-sm text-gray-500">${it.time}</div>
+        </div>
+      </div>
+    `).join("");
+
+    const total = parsed.items.length;
+    const done = parsed.items.filter(it=>it.done).length;
+    const percent = total ? Math.round((done/total)*100) : 0;
+
+    percentEl.textContent = percent + "%";
+    barEl.style.width = percent + "%";
+  })();
+
+  (function(){
+    const maxChallenges = 3;
+    const taken = parseInt(localStorage.getItem("takenCount")||"0");
+    
+    let percent = Math.round((taken / maxChallenges) * 100);
+    if (percent > 100) percent = 100;
+
+    let text = percent + "%";
+    if (taken > maxChallenges) {
+      text += " (+" + (taken - maxChallenges) + ")";
+    }
+
+    document.getElementById("challengesPercent").textContent = text;
+    document.getElementById("challengesBar").style.width = percent + "%";
+  })();
+
+  const whoResult = localStorage.getItem("whoResult");
+  const harvardResult = localStorage.getItem("harvardResult");
+  const resultEl = document.getElementById("adhdResult");
+  if (whoResult) {
+    resultEl.textContent = whoResult;
+  } else if (harvardResult) {
+    resultEl.textContent = harvardResult;
+  } else {
+    resultEl.textContent = "لا توجد نتيجة بعد";
+  }
+</script>
+</body>
+</html>

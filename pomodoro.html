@@ -20,6 +20,24 @@
                   inset -6px -6px 12px rgba(255,255,255,0.8);
       transition: transform 0.2s ease;
     }
+        @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .text {
+      font-size: 14px;
+    }
+    }
+
+    /* للأجهزة اللوحية */
+    @media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+      width: 90%;
+    }
+    }
+    
     .soft-dot {
       background: #dff7f5;
       border-radius: 9999px;

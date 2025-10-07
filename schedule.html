@@ -29,6 +29,23 @@
     50% { transform: scale(1.05); background-color: #86efac; }
     100% { transform: scale(1); background-color: #fff; }
   }
+  @media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+  }
+
+  /* للأجهزة اللوحية */
+  @media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    width: 90%;
+  }
+  }
 </style>
 </head>
 <body class="bg-gray-50 min-h-screen p-4 pb-20">

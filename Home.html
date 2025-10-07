@@ -16,6 +16,23 @@
     .progress-bar{height:10px;border-radius:999px;width:0%;transition:width 0.5s ease;}
     .card-shadow{box-shadow:0 8px 18px rgba(16,24,40,0.08);}
     .nav-item.active{color:#168dfa;} /* الأزرق الأساسي */
+       @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            padding: 10px;
+        }
+        
+        .text {
+            font-size: 14px;
+        }
+    }
+
+    /* للأجهزة اللوحية */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .container {
+            width: 90%;
+        }
+    }
 
     /* Popup */
     .popup-overlay{

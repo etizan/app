@@ -5,6 +5,8 @@
   <title>نتيجة التقييم</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body { font-family: 'Cairo', sans-serif; }
     .main-color { color: #08757c; }
@@ -12,6 +14,23 @@
     .hover-bg-main:hover { background-color: #065e63; }
     .fade-in { opacity: 0; transform: translateY(10px); animation: fadeIn 1s ease-out forwards; }
     @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+       @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            padding: 10px;
+        }
+        
+        .text {
+            font-size: 14px;
+        }
+    }
+
+    /* للأجهزة اللوحية */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .container {
+            width: 90%;
+        }
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800 flex items-center justify-center min-h-screen p-4">

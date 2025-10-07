@@ -3,12 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>السؤال 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Cairo', sans-serif; }
     .bg-main { background-color: #168dfa; }
     .hover-bg-main:hover { background-color: #1273c7; }
     .selected { border-color: #168dfa; background-color: #f0f9ff; }
+            /* للشاشات الصغيرة (الهواتف) */
+    @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            padding: 10px;
+        }
+        
+        .text {
+            font-size: 14px;
+        }
+    }
+
+    /* للأجهزة اللوحية */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .container {
+            width: 90%;
+        }
+    }
   </style>
 </head>
 <body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>السؤال 2</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: 'Cairo', sans-serif; }
     .bg-main { background-color: #00a1ff; }
@@ -11,6 +12,24 @@
     .selected { 
       border-color: #00a1ff; 
       background-color: #f0f9ff; 
+    }
+        /* للشاشات الصغيرة (الهواتف) */
+    @media (max-width: 768px) {
+        .container {
+            width: 100%;
+            padding: 10px;
+        }
+        
+        .text {
+            font-size: 14px;
+        }
+    }
+
+    /* للأجهزة اللوحية */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .container {
+            width: 90%;
+        }
     }
   </style>
 </head>

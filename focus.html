@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>مدرب اتخاذ القرار</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(to bottom right, #f9fdfd, #e6faff, #f0fcfb);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.6s ease;
+      margin: 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: #f8fffe;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px auto 12px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 16px;
+    }
+
+    .neo-circle {
+      background: #e6f9f7;
+      border-radius: 9999px;
+      box-shadow:
+        inset 6px 6px 12px rgba(0,0,0,0.05),
+        inset -6px -6px 12px rgba(255,255,255,0.8),
+        0 0 18px rgba(22,141,250,0.06);
+      transition: transform 0.18s ease;
+      position: relative;
+    }
+    .neo-circle.active {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); box-shadow: 0 0 26px rgba(22,141,250,0.12); }
+      100% { transform: scale(1); }
+    }
+
+    .ring-wrap { position: absolute; inset: -10px; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+    svg.progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
+    .progress-bg { stroke: rgba(8,117,124,0.08); stroke-width:8; fill:none; }
+    .progress-fg { stroke: url(#grad); stroke-width:8; fill:none; stroke-linecap:round; filter: drop-shadow(0 2px 6px rgba(43,179,155,0.18)); transition: stroke-dashoffset 0.4s linear; }
+
+    .decision-card {
+      background: #f8fffe;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      box-shadow:
+        inset 4px 4px 8px rgba(0,0,0,0.03),
+        inset -4px -4px 8px rgba(255,255,255,0.8),
+        0 4px 10px rgba(22,141,250,0.06);
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: #f9fdfd;
+      color: #0f8073;
+      font-weight: 600;
+      border-radius: 12px;
+      box-shadow:
+        4px 4px 10px rgba(0,0,0,0.06),
+        -4px -4px 10px rgba(255,255,255,0.7);
+      transition: all 0.18s ease;
+      padding: 12px 0;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 6px 6px 14px rgba(22,141,250,0.12);
+    }
+
+    .text-main { color: #168dfa; }
+    .time-large { font-size: 2rem; font-weight: 700; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <button onclick="window.location.href='decis1.html'" style="background:none;border:none;color:#0f8073;font-weight:600;">← رجوع</button>
+    <div style="font-weight:700;color:#334155">مدرب اتخاذ القرار</div>
+    <div style="width:40px"></div>
+  </header>
+
+  <main class="container text-center">
+    <div class="decision-card mb-5">
+      <p class="font-semibold text-lg text-[#08757c]" id="adviceText">🚀 ثق بحدثك!</p>
+      <p class="text-sm text-gray-500">القرارات المحكمة تؤدي إلى نتائج أفضل</p>
+    </div>
+
+    <div style="position:relative; margin:28px 0; height:250px;" class="flex justify-center items-center">
+      <div id="circle" class="neo-circle w-56 h-56 flex justify-center items-center" style="width:220px;height:220px;">
+        <div style="text-align:center;">
+          <div id="timerNumber" class="text-main time-large">15</div>
+          <div style="color:#6b7280;margin-top:6px">ثانية</div>
+        </div>
+        <div class="ring-wrap" aria-hidden="true">
+          <svg class="progress-ring" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="grad" x1="0%" x2="100%">
+                <stop offset="0%" stop-color="#168dfa"/>
+                <stop offset="60%" stop-color="#40E0D0"/>
+                <stop offset="100%" stop-color="#065e63"/>
+              </linearGradient>
+            </defs>
+            <circle class="progress-bg" cx="60" cy="60" r="50"></circle>
+            <circle id="progressCircle" class="progress-fg" cx="60" cy="60" r="50" stroke-dasharray="314.159" stroke-dashoffset="0"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div id="decisionCard" class="decision-card mb-6"></div>
+
+    <div class="flex gap-4 mt-4">
+      <button id="yesBtn" class="btn-primary">نعم</button>
+      <button id="noBtn" class="btn-primary">لا</button>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button id="backBtn" class="text-[#08757c] font-semibold">رجوع للقائمة</button>
+    </div>
+  </main>
+
+  <!-- Celebration Modal -->
+  <div id="celebrationModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-8 w-96 text-center relative overflow-hidden shadow-xl">
+      <div class="absolute left-4 bottom-4 text-4xl">🎉</div>
+      <div class="absolute right-4 bottom-4 text-4xl">🎉</div>
+      <h2 id="celebrationTitle" class="text-3xl font-extrabold mb-3 text-[#08757c]"></h2>
+      <p id="celebrationResult" class="text-lg text-gray-700 mb-3"></p>
+      <p id="celebrationQuote" class="text-sm text-gray-500 italic"></p>
+      <canvas id="confettiCanvas" class="absolute inset-0 pointer-events-none"></canvas>
+    </div>
+  </div>
+
+  <audio id="celebrationSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8b0e52f5d7.mp3?filename=short-success-sound-glockenspiel-treasure-video-game-6346.mp3"></audio>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const CIRC = 2 * Math.PI * 50;
+    const progressCircle = document.getElementById('progressCircle');
+    progressCircle.style.strokeDasharray = CIRC.toString();
+
+    function setProgress(ratio){
+      const offset = CIRC * (1 - ratio);
+      progressCircle.style.strokeDashoffset = offset;
+    }
+
+    // LocalStorage utils
+    function setItemWithExpiry(key, value) {
+      const now = new Date();
+      const expiry = now.getTime() + 7*24*60*60*1000;
+      const item = { value, expiry };
+      localStorage.setItem(key, JSON.stringify(item));
+    }
+    function getItemWithExpiry(key) {
+      const itemStr = localStorage.getItem(key);
+      if (!itemStr) return null;
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return item.value;
+    }
+    function getDecisions(){ return getItemWithExpiry("decisions") || []; }
+    function setDecisions(list){ setItemWithExpiry("decisions", list); }
+
+    const card=document.getElementById("decisionCard");
+    const idx=parseInt(localStorage.getItem("currentDecision")||"-1");
+    const data=getDecisions();
+    if(idx>=0 && idx<data.length){
+      const d=data[idx];
+      card.innerHTML=`<h2 class="text-lg font-semibold mb-2 text-[#08757c]">${d.title}</h2><p class="text-gray-500">${d.type}</p>`;
+    }else{
+      card.textContent="لا يوجد قرار محدد";
+    }
+
+    // Timer
+    let duration=15;
+    const timerNumber=document.getElementById("timerNumber");
+    const circle=document.getElementById("circle");
+    function startTimer(){
+      let start=null;
+      function animate(ts){
+        if(!start) start=ts;
+        const elapsed=(ts-start)/1000;
+        const remaining=Math.max(0,duration-elapsed);
+        timerNumber.textContent=Math.ceil(remaining);
+        const progress=Math.min(1,elapsed/duration);
+        setProgress(progress);
+        if(remaining>0){ requestAnimationFrame(animate); }
+        else{ timeOut(); }
+      }
+      circle.classList.add('active');
+      requestAnimationFrame(animate);
+    }
+    startTimer();
+
+    const quotes=[
+      "خطوة صغيرة أفضل من التردد الطويل.",
+      "التشتت طبيعي.. لكن القرار هو قوتك.",
+      "كل قرار هو تدريب لعقلك على الإنجاز.",
+      "التركيز يبدأ بخطوة، والخطوة تبدأ بقرار.",
+      "لا تنتظر الكمال.. تحرك الآن.",
+    ];
+
+    function showCelebration(decisionTitle, resultText){
+      const modal=document.getElementById("celebrationModal");
+      document.getElementById("celebrationTitle").textContent=decisionTitle;
+      document.getElementById("celebrationResult").textContent="قرارك: "+resultText;
+      document.getElementById("celebrationQuote").textContent=quotes[Math.floor(Math.random()*quotes.length)];
+      modal.classList.remove("hidden");
+      document.getElementById("celebrationSound").play();
+
+      const duration = 2*1000;
+      const end = Date.now() + duration;
+      (function frame(){
+        confetti({ particleCount: 8, angle: 60, spread: 50, origin: { x: 0, y: 1 } });
+        confetti({ particleCount: 8, angle: 120, spread: 50, origin: { x: 1, y: 1 } });
+        if(Date.now() < end) requestAnimationFrame(frame);
+      })();
+      setTimeout(()=>window.location.href="decis1.html",2500);
+    }
+
+    function timeOut(){
+      if(idx>=0 && data[idx]){
+        data[idx].status="expired";
+        setDecisions(data);
+      }
+      alert("انتهى الوقت! لم يتم اتخاذ القرار.");
+      window.location.href="decis1.html";
+    }
+
+    document.getElementById("yesBtn").onclick=()=>{ 
+      if(idx>=0 && data[idx]){ 
+        const title=data[idx].title; 
+        data.splice(idx,1); 
+        setDecisions(data); 
+        showCelebration(title,"نعم"); 
+      } 
+    };
+    document.getElementById("noBtn").onclick=()=>{ 
+      if(idx>=0 && data[idx]){ 
+        const title=data[idx].title; 
+        data.splice(idx,1); 
+        setDecisions(data); 
+        showCelebration(title,"لا"); 
+      } 
+    };
+    document.getElementById("backBtn").onclick=()=>window.location.href="decis1.html";
+  </script>
+</body>
+</html>

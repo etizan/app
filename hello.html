@@ -13,55 +13,109 @@
       theme: {
         extend: {
           colors: {
-            brand1: '#f8fafc',   /* خلفية فاتحة */
-            brand2: '#168dfa',   /* الأزرق الأساسي */
-            brand3: '#40E0D0',   /* الفيروزي */
-            brand4: '#065e63',   /* الإيميرالد */
+            brand1: '#f8fafc',
+            brand2: '#168dfa',
+            brand3: '#40E0D0',
+            brand4: '#065e63',
             white: '#ffffff'
           },
           fontFamily: {
             cairo: ['Cairo', 'sans-serif'],
           },
           keyframes: {
-            pop: { '0%': { transform:'scale(1)' }, '50%': { transform:'scale(0.95)' }, '100%': { transform:'scale(1)' } }
+            pop: { '0%': { transform:'scale(1)' }, '50%': { transform:'scale(0.95)' }, '100%': { transform:'scale(1)' } },
+            fadeIn: { from:{opacity:'0', transform:'translateY(20px)'}, to:{opacity:'1', transform:'translateY(0)'} },
+            fadeUp: { from:{opacity:'0', transform:'translateY(15px)'}, to:{opacity:'1', transform:'translateY(0)'} },
           },
           animation: {
-            pop: 'pop .2s ease-out'
+            pop: 'pop .2s ease-out',
+            fadeIn: 'fadeIn 0.8s ease forwards',
+            fadeUp: 'fadeUp 1s ease forwards'
           }
         }
       }
     }
   </script>
-</head>
-<body class="min-h-screen bg-brand1 text-brand2 font-cairo antialiased flex flex-col">
 
-  <header class="flex-1 flex flex-col items-center justify-center px-6 pt-8">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #f9fdfd, #e6faff, #f0fcfb);
+      font-family: 'Cairo', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ظل عام لطيف لكل العناصر */
+    * {
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* تدرج محسّن */
+    .bg-gradient-to-r {
+      background: linear-gradient(135deg, #168dfa 0%, #40E0D0 50%, #065e63 100%) !important;
+    }
+
+    /* توهج خفيف حول الأيقونة */
+    .fa-stopwatch {
+      filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
+    }
+
+    /* حركة دخول للأقسام */
+    header, main {
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    header { animation-delay: 0.1s; }
+    main { animation-delay: 0.4s; }
+
+    /* توهج خفيف في الخلفية */
+    main::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 320px;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.35), transparent 70%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ظلال الأزرار */
+    button {
+      box-shadow: 0 4px 12px rgba(22,141,250,0.2);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(22,141,250,0.25);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-brand1 text-brand2 font-cairo flex flex-col">
+
+  <!-- رأس الصفحة -->
+  <header class="flex-1 flex flex-col items-center justify-center px-6 pt-8 animate-fadeUp">
     <img src="assets/boy.png" alt="استعيد توازنك"
-         class="w-60 h-auto select-none pointer-events-none" draggable="false"/>
+         class="w-60 h-auto select-none pointer-events-none drop-shadow-lg" draggable="false"/>
     <h1 class="mt-6 text-3xl font-bold text-brand2">استعيد توازنك</h1>
     <p class="mt-1 text-sm tracking-widest text-gray-500">REGAIN YOUR BALANCE</p>
   </header>
 
-  <main class="relative w-full h-[320px] mt-auto flex flex-col justify-end">
+  <!-- الجزء السفلي -->
+  <main class="relative w-full h-[320px] mt-auto flex flex-col justify-end animate-fadeUp">
     <div class="absolute inset-0 z-0">
-      <!-- Background gradient -->
-      <div class="absolute bottom-0 w-full h-[280px] bg-gradient-to-r from-brand2 via-brand3 to-brand4" 
+      <!-- خلفية متدرجة -->
+      <div class="absolute bottom-0 w-full h-[280px] bg-gradient-to-r from-brand2 via-brand3 to-brand4"
            style="clip-path: ellipse(120% 100% at 50% 100%);"></div>
-      
-      <div class="absolute bottom-[170px] left-1/2 -translate-x-1/2 w-24 h-24 bg-brand2 rounded-full flex items-center justify-center border-8 border-white">
+
+      <!-- أيقونة الساعة -->
+      <div class="absolute bottom-[170px] left-1/2 -translate-x-1/2 w-24 h-24 bg-brand2 rounded-full flex items-center justify-center border-8 border-white shadow-lg">
         <i class="fas fa-stopwatch text-5xl text-white"></i>
       </div>
-
-      <!-- <div class="absolute bottom-[200px] left-8">
-        <i class="fas fa-dumbbell text-4xl text-brand3 opacity-80 -rotate-45"></i>
-      </div>
-
-      <div class="absolute bottom-[200px] right-8">
-        <i class="fas fa-dumbbell text-4xl text-brand3 opacity-80 rotate-45"></i>
-      </div> -->
-
     </div>
 
+    <!-- الأزرار -->
     <div class="relative z-10 w-full px-6 flex flex-col gap-4 pb-10">
       <button id="loginBtn"
         class="w-full py-3 rounded-full text-lg font-semibold text-brand2 bg-white
@@ -78,6 +132,7 @@
     </div>
   </main>
 
+  <!-- السكريبت -->
   <script>
     const addClickPulse = (el) => {
       el.classList.add('animate-pop');

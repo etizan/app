@@ -15,8 +15,7 @@
           colors: {
             brand1: '#f8fafc',
             brand2: '#168dfa',
-            brand3: '#40E0D0',
-            brand4: '#065e63',
+            brand3: '#5DAAB7', // Updated color
             white: '#ffffff'
           },
           fontFamily: {
@@ -43,23 +42,15 @@
       font-family: 'Cairo', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-
-    /* ظل عام لطيف لكل العناصر */
-    * {
-      transition: all 0.3s ease-in-out;
+    
+    .bg-gradient-custom {
+      background: linear-gradient(90deg, #168dfa, #5DAAB7) !important;
     }
 
-    /* تدرج محسّن */
-    .bg-gradient-to-r {
-      background: linear-gradient(135deg, #168dfa 0%, #40E0D0 50%, #065e63 100%) !important;
-    }
-
-    /* توهج خفيف حول الأيقونة */
     .fa-stopwatch {
       filter: drop-shadow(0 0 12px rgba(255,255,255,0.9));
     }
 
-    /* حركة دخول للأقسام */
     header, main {
       opacity: 0;
       animation: fadeIn 0.8s ease forwards;
@@ -68,7 +59,6 @@
     header { animation-delay: 0.1s; }
     main { animation-delay: 0.4s; }
 
-    /* توهج خفيف في الخلفية */
     main::before {
       content: "";
       position: absolute;
@@ -80,9 +70,9 @@
       pointer-events: none;
     }
 
-    /* ظلال الأزرار */
     button {
       box-shadow: 0 4px 12px rgba(22,141,250,0.2);
+       transition: all 0.3s ease-in-out;
     }
 
     button:hover {
@@ -94,45 +84,39 @@
 
 <body class="min-h-screen bg-brand1 text-brand2 font-cairo flex flex-col">
 
-  <!-- رأس الصفحة -->
   <header class="flex-1 flex flex-col items-center justify-center px-6 pt-8 animate-fadeUp">
-    <img src="assets/boy.png" alt="استعيد توازنك"
+    <img src="assets/boy.webp" alt="استعيد توازنك"
          class="w-60 h-auto select-none pointer-events-none drop-shadow-lg" draggable="false"/>
     <h1 class="mt-6 text-3xl font-bold text-brand2">استعيد توازنك</h1>
     <p class="mt-1 text-sm tracking-widest text-gray-500">REGAIN YOUR BALANCE</p>
   </header>
 
-  <!-- الجزء السفلي -->
   <main class="relative w-full h-[320px] mt-auto flex flex-col justify-end animate-fadeUp">
     <div class="absolute inset-0 z-0">
-      <!-- خلفية متدرجة -->
-      <div class="absolute bottom-0 w-full h-[280px] bg-gradient-to-r from-brand2 via-brand3 to-brand4"
+      <div class="absolute bottom-0 w-full h-[280px] bg-gradient-custom"
            style="clip-path: ellipse(120% 100% at 50% 100%);"></div>
 
-      <!-- أيقونة الساعة -->
       <div class="absolute bottom-[170px] left-1/2 -translate-x-1/2 w-24 h-24 bg-brand2 rounded-full flex items-center justify-center border-8 border-white shadow-lg">
         <i class="fas fa-stopwatch text-5xl text-white"></i>
       </div>
     </div>
 
-    <!-- الأزرار -->
     <div class="relative z-10 w-full px-6 flex flex-col gap-4 pb-10">
       <button id="loginBtn"
         class="w-full py-3 rounded-full text-lg font-semibold text-brand2 bg-white
-               shadow-md hover:shadow-lg active:animate-pop transition-all">
+               shadow-md hover:shadow-lg active:animate-pop">
         الاختبار أولا
       </button>
 
       <button id="signupBtn"
         class="w-full py-3 rounded-full text-lg font-semibold text-white 
-               bg-gradient-to-r from-brand2 to-brand3
-               shadow-md hover:shadow-lg active:animate-pop transition-all">
+               bg-gradient-custom
+               shadow-md hover:shadow-lg active:animate-pop">
         تخطي الاختبار والذهاب للصفحة الرئيسية
       </button>
     </div>
   </main>
 
-  <!-- السكريبت -->
   <script>
     const addClickPulse = (el) => {
       el.classList.add('animate-pop');
@@ -144,12 +128,12 @@
 
     loginButton.addEventListener("click", function() {
       addClickPulse(this);
-      window.location.href = "test.html";
+      setTimeout(() => { window.location.href = "test.html"; }, 150);
     });
 
     signupButton.addEventListener("click", function() {
       addClickPulse(this);
-      window.location.href = "home.html";
+      setTimeout(() => { window.location.href = "home.html"; }, 150);
     });
   </script>
 </body>

@@ -5,6 +5,7 @@
   <title>نتيجة التقييم</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -21,10 +22,7 @@
 
     .card {
       background: #f8fffe;
-      box-shadow:
-        inset 4px 4px 8px rgba(0,0,0,0.03),
-        inset -4px -4px 8px rgba(255,255,255,0.8),
-        0 4px 10px rgba(22,141,250,0.06);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.05);
       border-radius: 18px;
       padding: 2rem;
       width: 100%;
@@ -38,24 +36,24 @@
     }
 
     .gradient-btn {
-      background: linear-gradient(90deg, #168dfa, #40e0d0);
+      background: linear-gradient(90deg, #168dfa, #5DAAB7);
       color: white;
       font-weight: 600;
       border-radius: 12px;
-      box-shadow: 4px 4px 10px rgba(0,0,0,0.06),
-                  -4px -4px 10px rgba(255,255,255,0.7);
+      box-shadow: 0 4px 12px rgba(22,141,250,0.2);
       transition: all 0.2s ease;
     }
 
-    .gradient-btn:hover { transform: translateY(-2px); box-shadow: 6px 6px 14px rgba(22,141,250,0.12); }
+    .gradient-btn:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 8px 20px rgba(22,141,250,0.25);
+    }
 
     .section-box {
       background: #ffffffc7;
       border-radius: 12px;
       padding: 1rem;
-      box-shadow:
-        inset 2px 2px 6px rgba(0,0,0,0.03),
-        inset -2px -2px 6px rgba(255,255,255,0.8);
+       box-shadow: 0 2px 4px rgba(0,0,0,0.04);
       margin-bottom: 1rem;
     }
 
@@ -68,7 +66,7 @@
     .negative { background-color: #fef2f2; border-color: #ef4444; }
 
     .text-main { color: #168dfa; }
-    .text-emerald { color: #0f8073; }
+    .text-accent { color: #5DAAB7; }
   </style>
 </head>
 <body>
@@ -94,89 +92,96 @@
     }
 
     const questions = [
-      "السؤال ١",
-      "السؤال ٢",
-      "السؤال ٣",
-      "السؤال ٤",
-      "السؤال ٥",
-      "السؤال ٦"
+      "كم مرة تجد صعوبة في التركيز على التفاصيل أو ترتكب أخطاء بسبب الإهمال في عملك أو دراستك أو أنشطتك الأخرى؟",
+      "كم مرة تجد صعوبة في الحفاظ على انتباهك في المهام أو الأنشطة الترفيهية؟",
+      "كم مرة يبدو أنك لا تستمع عندما يتحدث إليك شخص ما مباشرة؟",
+      "كم مرة تجد صعوبة في تنظيم المهام والأنشطة؟",
+      "كم مرة تتجنب أو تكره أو تتردد في الانخراط في المهام التي تتطلب مجهودًا عقليًا مستمرًا؟",
+      "كم مرة تفقد الأشياء الضرورية للمهام أو الأنشطة (مثل الواجبات المدرسية، أقلام الرصاص، الكتب، الأدوات، المحافظ، المفاتيح، الأوراق، النظارات، الهواتف المحمولة)؟"
     ];
 
     const scaleText = ["أبداً", "نادراً", "أحياناً", "غالباً", "دائمًا تقريبًا"];
 
     function isPositive(index, val) {
       if (val === null) return false;
-      if ([0,1,2].includes(index)) return val >= 2;
-      if ([3,4,5].includes(index)) return val >= 3;
+      // For Part A (first 6 questions of ASRS-v1.1 screener)
+      if (index >= 0 && index <= 2) return val >= 2; // "Sometimes", "Often", or "Very Often"
+      if (index >= 3 && index <= 5) return val >= 3; // "Often" or "Very Often"
       return false;
     }
 
     const positives = responses.filter((val, idx) => isPositive(idx, val)).length;
     const whoHigh = positives >= 4;
     const whoResult = whoHigh
-      ? "النتيجة (WHO-ASRS): هناك احتمال مرتفع لوجود ADHD"
-      : "النتيجة (WHO-ASRS): لا يظهر احتمال مرتفع لوجود ADHD";
+      ? "النتيجة: هناك احتمال مرتفع لوجود أعراض مرتبطة بـ ADHD."
+      : "النتيجة: لا يظهر احتمال مرتفع لوجود أعراض مرتبطة بـ ADHD.";
 
     const answered = responses.filter(v => v !== null);
     const totalScore = answered.reduce((a, b) => a + b, 0);
-    const percentage = ((totalScore / (answered.length * 4)) * 100).toFixed(1);
-    const summary = `أجبت على ${answered.length} من 6 أسئلة. مجموع نقاطك = ${totalScore} من ${answered.length * 4}.`;
+    const maxScore = answered.length * 4;
+    const summary = `أجبت على ${answered.length} من 6 أسئلة. مجموع نقاطك هو ${totalScore} من ${maxScore}.`;
 
-    localStorage.setItem("whoResult", whoResult);
+    localStorage.setItem("whoResult", whoHigh ? "احتمالية مرتفعة" : "احتمالية منخفضة");
 
     let adviceBox = "";
     if (whoHigh) {
       adviceBox = `
-        <div class="section-box positive border-r-4 border-green-500 fade-in">
-          <p class="text-emerald font-semibold mb-1">تنويه هام:</p>
-          <p class="text-emerald">تشير نتيجتك إلى احتمال مرتفع لوجود أعراض اضطراب فرط الحركة وتشتت الانتباه (ADHD).
-          نوصيك بمراجعة طبيب نفسي أو أخصائي صحة نفسية لتقييم شامل ودقيق.</p>
+        <div class="section-box positive border-r-4 border-green-500">
+          <p class="text-green-800 font-semibold mb-1">تنويه هام:</p>
+          <p class="text-green-800">
+          هذه النتيجة لا تعتبر تشخيصًا نهائيًا. نوصيك بشدة بمراجعة طبيب نفسي أو أخصائي صحة نفسية لتقييم شامل ودقيق.
+          </p>
+        </div>`;
+    } else {
+         adviceBox = `
+        <div class="section-box positive border-r-4 border-blue-400" style="background-color: #eff6ff;">
+          <p class="text-blue-800 font-semibold mb-1">ملاحظة:</p>
+          <p class="text-blue-800">
+          حتى لو كانت النتيجة لا تشير إلى احتمال مرتفع، إذا كنت تشعر بأن لديك صعوبات تؤثر على حياتك اليومية، فمن الجيد دائمًا استشارة أخصائي.
+          </p>
         </div>`;
     }
 
     document.getElementById("results").innerHTML = `
-      <div class="section-box highlight fade-in" style="animation-delay:0.2s">${whoResult}</div>
-      <div class="section-box fade-in text-gray-700" style="animation-delay:0.5s">${summary}</div>
+      <div class="section-box highlight">${whoResult}</div>
+      <div class="section-box text-gray-700">${summary}</div>
       ${adviceBox}
     `;
 
-    let detailHTML = "";
+    let detailHTML = '<h3 class="text-xl font-bold text-center text-accent mb-4">تفاصيل إجاباتك</h3>';
     responses.forEach((val, idx) => {
       if (val === null) return;
       const positive = isPositive(idx, val);
       detailHTML += `
-        <div class="section-box fade-in ${positive ? 'positive border-green-400' : 'negative border-red-400'}">
-          <p class="font-semibold">${questions[idx]}</p>
+        <div class="section-box ${positive ? 'positive' : 'negative'}">
+          <p class="font-semibold text-gray-800">${questions[idx]}</p>
           <p class="mt-2">إجابتك: <span class="font-bold">${scaleText[val]}</span></p>
-          <p class="mt-1 ${positive ? 'text-green-700' : 'text-red-700'}">
-            ${positive ? 'إيجابي ✅' : 'غير إيجابي ❌'}
-          </p>
         </div>`;
     });
     document.getElementById("details").innerHTML = detailHTML;
 
-    // مشاركة النتيجة
+    // Share result
     document.getElementById("shareBtn").addEventListener("click", async () => {
       const text = whoResult + " | " + summary;
       if (navigator.share) {
-        await navigator.share({ title: "نتيجة تقييمي", text });
+        await navigator.share({ title: "نتيجة تقييمي لاحتمالية ADHD", text });
       } else {
         alert("خاصية المشاركة غير مدعومة على هذا المتصفح.");
       }
     });
 
-    // تنزيل كصورة
+    // Download as image
     document.getElementById("downloadBtn").addEventListener("click", () => {
       const node = document.getElementById("resultCard");
       domtoimage.toPng(node)
         .then(function (dataUrl) {
           const link = document.createElement('a');
-          link.download = 'adhd-result.png';
+          link.download = 'adhd-screener-result.png';
           link.href = dataUrl;
           link.click();
         })
         .catch(function (error) {
-          console.error('خطأ أثناء إنشاء الصورة!', error);
+          console.error('Oops, something went wrong!', error);
         });
     });
   </script>

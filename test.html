@@ -7,37 +7,53 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  body {font-family:'Cairo',sans-serif;background:#f7fafc}
-  .card {border-radius:18px}
+  body {
+    font-family:'Cairo',sans-serif;
+    background: linear-gradient(to bottom right, #f9fdfd, #e6faff, #f0fcfb);
+  }
+  .card {
+    border-radius:18px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+  }
+  .header-gradient {
+    background: linear-gradient(90deg, #168dfa, #5DAAB7);
+  }
+  .btn-gradient {
+    background: linear-gradient(90deg, #168dfa, #5DAAB7);
+  }
+  .btn-gradient:hover {
+    background: linear-gradient(90deg, #5DAAB7, #168dfa);
+  }
+  .text-main {
+    color: #168dfa;
+  }
 </style>
 </head>
 <body class="antialiased text-gray-800">
 
 <div class="max-w-md mx-auto min-h-screen p-4">
-  <!-- Header -->
-  <header class="bg-gradient-to-b from-[#00a1ff] via-[#168dfa] to-[#66d4ff] text-white rounded-b-3xl pt-8 pb-8 text-center shadow-md">
+  <header class="header-gradient text-white rounded-b-3xl pt-8 pb-8 text-center shadow-md">
     <div class="w-20 h-20 bg-white rounded-full mx-auto flex items-center justify-center shadow-lg">
       <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
         <circle cx="12" cy="12" r="11" fill="white"/>
-        <path d="M8 6c-1 1-1 2-1 3 0 2 1 2 1 4" stroke="#00a1ff" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M16 6c1 1 1 2 1 3 0 2-1 2-1 4" stroke="#00a1ff" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M12 4v16" stroke="#00a1ff" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M8 6c-1 1-1 2-1 3 0 2 1 2 1 4" stroke="#168dfa" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M16 6c1 1 1 2 1 3 0 2-1 2-1 4" stroke="#168dfa" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M12 4v16" stroke="#168dfa" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
     </div>
     <h1 class="text-2xl font-extrabold mt-3">ASRS v1.1</h1>
     <p class="text-sm opacity-90">مقياس ASRS (WHO & Harvard)</p>
   </header>
 
-  <!-- Content -->
   <main class="bg-white p-6 rounded-xl -mt-6 shadow-xl">
-    <h2 class="text-[#168dfa] text-center font-bold text-xl mb-2"> 👋 أهلاً بيك</h2>
+    <h2 class="text-main text-center font-bold text-xl mb-2"> 👋 أهلاً بيك</h2>
     <p class="text-center text-gray-600 mb-6 leading-relaxed">
       الاختبار ده معمول عشان يساعدك تشوف إذا كان عندك شوية أعراض ممكن تكون مرتبطة بفرط الحركة وتشتت الانتباه (ADHD).
     </p>
     <div class="space-y-4">
       <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 card flex items-center justify-between">
         <div class="text-right">
-          <h3 class="font-semibold text-[#168dfa]">⏱️ المدة</h3>
+          <h3 class="font-semibold text-main">⏱️ المدة</h3>
           <p class="text-gray-600">حوالي 5-7 دقائق</p>
         </div>
       </div>
@@ -65,7 +81,7 @@
 
     <div class="mt-6">
       <a id="startBtn" href="q1.html"
-         class="block text-white bg-gradient-to-r from-[#00a1ff] via-[#168dfa] to-[#66d4ff] text-center py-4 rounded-xl text-lg shadow-lg">
+         class="block text-white btn-gradient text-center py-4 rounded-xl text-lg shadow-lg transition transform active:scale-95">
         ← ابدأ التقييم
       </a>
     </div>

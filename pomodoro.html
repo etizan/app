@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>وضع التركيز</title>
+  <title>(بومودورو)وضع التركيز</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <script src="js/notifications.js"></script>
   <style>
     body {
       font-family: 'Cairo', sans-serif;
@@ -74,8 +74,8 @@
     .hidden { display:none; }
 
     .text-main { color: #168dfa; }
+    .text-accent { color: #5DAAB7; }
     .text-emerald { color: #10b981; }
-    .text-turquoise { color: #00a1ff; }
 
     @keyframes shake {
       0% { transform: translate(0, 0); }
@@ -100,13 +100,12 @@
 <body>
   <div class="w-full max-w-sm">
 
-    <!-- شاشة الفوكس -->
     <div id="focusScreen" class="fade show">
       <header>
-        <button onclick="window.location.href='home.html'" class="text-[#0f8073] font-semibold">
+        <button onclick="window.location.href='Home.html'" class="text-[#168dfa] font-semibold">
           ← رجوع
         </button>
-        <h1 class="text-lg font-bold text-gray-800">مدرب اتخاذ القرار</h1>
+        <h1 class="text-lg font-bold text-gray-800">وضع التركيز</h1>
         <div class="w-12"></div>
       </header>
 
@@ -124,7 +123,7 @@
         <div class="text-sm text-gray-500">ابقَ مركزًا، أنت قادر على ذلك</div>
       </div>
 
-      <div class="text-center text-turquoise text-xl font-bold mb-6">تركيز</div>
+      <div class="text-center text-accent text-xl font-bold mb-6">تركيز</div>
 
       <div class="flex justify-center gap-8 mb-6">
         <button id="stopBtn" class="control-btn" title="إيقاف">
@@ -136,18 +135,17 @@
         </button>
       </div>
 
-      <div class="text-center text-xs text-gray-400">اضغط للتوقف مؤقتًا · اضغط باستمرار للتوقف</div>
+      <div class="text-center text-xs text-gray-400">اضغط للبدء · اضغط للإيقاف المؤقت</div>
 
       <div class="flex justify-end mt-8">
         <div class="soft-dot w-16 h-16"></div>
       </div>
     </div>
 
-    <!-- شاشة البريك -->
     <div id="breakScreen" class="fade hidden">
       <header>
-        <button id="backBtn" class="text-[#0f8073] font-semibold">← رجوع</button>
-        <h1 class="text-lg font-bold text-gray-800">مدرب اتخاذ القرار</h1>
+        <button id="backBtn" class="text-[#168dfa] font-semibold">← رجوع</button>
+        <h1 class="text-lg font-bold text-gray-800">استراحة قصيرة</h1>
         <div class="w-12"></div>
       </header>
 
@@ -165,112 +163,134 @@
         <div class="text-sm text-gray-500">خذ نفسًا عميقًا ثم عد للتركيز</div>
       </div>
 
-      <div class="text-center text-turquoise text-xl font-bold mb-6">بريك</div>
+      <div class="text-center text-accent text-xl font-bold mb-6">بريك</div>
     </div>
   </div>
 
   <audio id="endSound" src="ding.mp3" preload="auto"></audio>
 
   <script>
-    const focusSeconds = 25 * 60;
-    const breakSeconds = 5 * 60;
-    let onBreak = false, running = false, endTime=null, timer=null;
-    let warnedAt5 = false;
+  const focusSeconds = 25 * 60; // 25 minutes
+  const breakSeconds = 5 * 60; // 5 minutes
+  let onBreak = false, running = false, paused = false;
+  let endTime = null, timer = null;
+  let remaining = focusSeconds;
+  
+  function init(){ 
+    // This can be used for initialization if needed in the future
+  }
+  
+  const timeDisplay = document.getElementById('timeDisplay');
+  const breakDisplay = document.getElementById('breakDisplay');
+  const focusScreen = document.getElementById('focusScreen');
+  const breakScreen = document.getElementById('breakScreen');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const backBtn = document.getElementById('backBtn');
+  const endSound = document.getElementById('endSound');
+  const circle = document.getElementById('circle');
 
-    const timeDisplay = document.getElementById('timeDisplay');
-    const breakDisplay = document.getElementById('breakDisplay');
-    const focusScreen = document.getElementById('focusScreen');
-    const breakScreen = document.getElementById('breakScreen');
-    const playIcon = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const backBtn = document.getElementById('backBtn');
-    const endSound = document.getElementById('endSound');
-    const circle = document.getElementById('circle');
+  function toArabicIndic(numStr){
+    const map = {0:'٠',1:'١',2:'٢',3:'٣',4:'٤',5:'٥',6:'٦',7:'٧',8:'٨',9:'٩'};
+    return String(numStr).split('').map(ch=> map[ch] ?? ch).join('');
+  }
+  function formatSeconds(sec){
+    const mins = Math.floor(sec/60);
+    const s = String(sec%60).padStart(2,'0');
+    return toArabicIndic(mins+":"+s);
+  }
 
-    function toArabicIndic(numStr){
-      const map = {0:'٠',1:'١',2:'٢',3:'٣',4:'٤',5:'٥',6:'٦',7:'٧',8:'٨',9:'٩'};
-      return String(numStr).split('').map(ch=> map[ch] ?? ch).join('');
+  function showScreen(showEl, hideEl){
+    hideEl.classList.remove('show');
+    setTimeout(()=> {
+      hideEl.classList.add('hidden');
+      showEl.classList.remove('hidden');
+      setTimeout(()=> showEl.classList.add('show'),50);
+    },400);
+  }
+
+  function updateDisplays(rem, breaking){
+    if(breaking){
+      breakDisplay.textContent = formatSeconds(rem);
+      showScreen(breakScreen, focusScreen);
+    } else {
+      timeDisplay.textContent = formatSeconds(rem);
+      showScreen(focusScreen, breakScreen);
     }
-    function formatSeconds(sec){
-      const mins = Math.floor(sec/60);
-      const s = String(sec%60).padStart(2,'0');
-      return toArabicIndic(mins+":"+s);
-    }
+  }
 
-    function showScreen(showEl, hideEl){
-      hideEl.classList.remove('show');
-      setTimeout(()=> {
-        hideEl.classList.add('hidden');
-        showEl.classList.remove('hidden');
-        setTimeout(()=> showEl.classList.add('show'),50);
-      },400);
-    }
+  function startTimer(seconds){
+    endTime = Date.now() + seconds * 1000;
+    running = true;
+    paused = false;
+    if(timer) clearInterval(timer);
+    timer = setInterval(tick, 1000);
+  }
 
-    function updateDisplays(rem, breaking){
-      if(breaking){
-        breakDisplay.textContent = formatSeconds(rem);
-        showScreen(breakScreen, focusScreen);
-      } else {
-        timeDisplay.textContent = formatSeconds(rem);
-        showScreen(focusScreen, breakScreen);
-      }
-    }
+  function tick(){
+    let rem = Math.ceil((endTime - Date.now()) / 1000);
+    remaining = rem;
 
-    function startTimer(seconds){
-      endTime = Date.now() + seconds*1000;
-      running = true;
-      warnedAt5 = false;
-      if(timer) clearInterval(timer);
-      timer = setInterval(tick,1000);
-    }
-
-    function tick(){
-      let rem = Math.ceil((endTime - Date.now())/1000);
-      if(rem === 5 && !warnedAt5){
-        warnedAt5 = true;
-        if(navigator.vibrate) navigator.vibrate([200,100,200]);
-        circle.classList.add("shake");
-        setTimeout(()=>circle.classList.remove("shake"),700);
-      }
-
-      if(rem > 0){ updateDisplays(rem, onBreak); return; }
-
-      clearInterval(timer); timer=null; running=false;
-      try{ endSound.currentTime=0; endSound.play(); }catch(e){}
-      if(navigator.vibrate) navigator.vibrate([300,150,300]);
-
-      if(!onBreak){
-        onBreak=true; startTimer(breakSeconds);
-      } else {
-        onBreak=false; startTimer(focusSeconds);
-      }
+    if(rem > 0){ 
+      updateDisplays(rem, onBreak); 
+      return; 
     }
 
-    playPauseBtn.addEventListener('click',()=>{
-      if(!running){
-        onBreak=false; startTimer(focusSeconds);
-        playIcon.classList.add('hidden'); pauseIcon.classList.remove('hidden'); 
-      } else {
-        clearInterval(timer); running=false; timer=null;
-        playIcon.classList.remove('hidden'); pauseIcon.classList.add('hidden');
-      }
-    });
+    clearInterval(timer); timer = null; running = false;
+    try { endSound.currentTime = 0; endSound.play(); } catch(e){}
+    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
-    stopBtn.addEventListener('click',()=>{ 
-      clearInterval(timer); running=false; onBreak=false;
-      updateDisplays(focusSeconds,false);
+    if(!onBreak){
+      onBreak = true;
+      remaining = breakSeconds;
+      startTimer(remaining);
+    } else {
+      onBreak = false;
+      remaining = focusSeconds;
+      // You can decide if you want it to auto-start the next focus session
+      // For now, it will just reset
+       updateDisplays(remaining, false);
+       playIcon.classList.remove('hidden'); 
+       pauseIcon.classList.add('hidden');
+    }
+  }
+
+  playPauseBtn.addEventListener('click', () => {
+    if(!running && !paused){ // New start
+      onBreak = false;
+      remaining = focusSeconds;
+      startTimer(remaining);
+      playIcon.classList.add('hidden'); pauseIcon.classList.remove('hidden');
+    } 
+    else if(running){ // Pause
+      clearInterval(timer);
+      running = false;
+      paused = true;
       playIcon.classList.remove('hidden'); pauseIcon.classList.add('hidden');
-    });
+    } 
+    else if(paused){ // Resume
+      startTimer(remaining);
+      playIcon.classList.add('hidden'); pauseIcon.classList.remove('hidden');
+    }
+  });
 
-    backBtn.addEventListener('click',()=>{ 
-      clearInterval(timer); running=false; onBreak=false;
-      updateDisplays(focusSeconds,false);
-      playIcon.classList.remove('hidden'); pauseIcon.classList.add('hidden');
-    });
+  stopBtn.addEventListener('click', () => { 
+    clearInterval(timer); running = false; paused = false; onBreak = false;
+    remaining = focusSeconds;
+    updateDisplays(remaining,false);
+    playIcon.classList.remove('hidden'); pauseIcon.classList.add('hidden');
+  });
 
-    window.onload=()=>updateDisplays(focusSeconds,false);
+  backBtn.addEventListener('click', () => { 
+    clearInterval(timer); running = false; paused = false; onBreak = false;
+    remaining = focusSeconds;
+    updateDisplays(remaining,false);
+    playIcon.classList.remove('hidden'); pauseIcon.classList.add('hidden');
+  });
+
+  window.onload = () => updateDisplays(focusSeconds,false);
   </script>
 </body>
 </html>

@@ -5,24 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>جدول اليوم</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   body {
     font-family: "Cairo", sans-serif;
-    background: linear-gradient(to bottom right, #f0f9ff, #e0f2fe);
+    background: linear-gradient(to bottom right, #f9fdfd, #e6faff, #f0fcfb);
     animation: fadeInPage 0.6s ease;
   }
 
-  /* ألوان الباليت */
-  .bg-main { background: linear-gradient(90deg, #168dfa, #0f6fc7); }
-  .hover-bg-main:hover { background: linear-gradient(90deg, #0f6fc7, #168dfa); }
+  .bg-main-gradient { background: linear-gradient(90deg, #168dfa, #5DAAB7); }
+  .hover-bg-main-gradient:hover { background: linear-gradient(90deg, #5DAAB7, #168dfa); }
   .text-main { color: #168dfa; }
-  .bg-accent { background-color: #00a1ff; }
-  .bg-emerald { background: linear-gradient(90deg, #10b981, #059669); }
+  .text-accent { color: #5DAAB7; }
+  .bg-emerald-gradient { background: linear-gradient(90deg, #10b981, #059669); }
 
-  /* تحسين البطاقات */
   #scheduleCard {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
     border: 1px solid #e5e7eb;
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(6px);
     transition: all 0.3s ease;
   }
@@ -30,7 +30,6 @@
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
   }
 
-  /* المهام */
   [data-idx] {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -39,7 +38,6 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 
-  /* أنيميشن */
   .fade-in-up { animation: fadeInUp 0.6s ease forwards; }
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -54,13 +52,11 @@
     100% { transform: scale(1); background-color: #fff; }
   }
 
-  /* fade in عام */
   @keyframes fadeInPage {
     from { opacity: 0; }
     to { opacity: 1; }
   }
 
-  /* نافذة الإضافة */
   #modal > div {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
@@ -72,7 +68,6 @@
     to { opacity: 1; transform: scale(1); }
   }
 
-  /* navbar */
   nav {
     box-shadow: 0 -3px 15px rgba(0,0,0,0.08);
   }
@@ -80,17 +75,14 @@
     transform: translateY(-2px);
     transition: transform 0.2s;
   }
-
-  /* العناوين */
+  
   h1 {
     letter-spacing: 0.5px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
 
-  /* responsive */
   @media (max-width: 768px) {
     .container { width: 100%; padding: 10px; }
-    .text { font-size: 14px; }
   }
   @media (min-width: 769px) and (max-width: 1024px) {
     .container { width: 90%; }
@@ -98,27 +90,26 @@
 </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen p-4 pb-20">
+<body class="min-h-screen p-4 pb-20">
 
-<div id="scheduleCard" class="max-w-2xl mx-auto bg-white p-6 rounded-2xl">
+<div id="scheduleCard" class="max-w-2xl mx-auto p-6 rounded-2xl">
   <h1 class="text-2xl font-bold text-center text-main mb-4">جدول اليوم</h1>
   <p id="currentDate" class="text-center text-gray-500 mb-6"></p>
 
   <div id="tasksList" class="space-y-4"></div>
-  <p id="emptyMsg" class="text-center text-gray-400">لا توجد مهام حتى الآن</p>
+  <p id="emptyMsg" class="text-center text-gray-400 py-8">لا توجد مهام حتى الآن. أضف مهمة للبدء!</p>
 
   <div class="flex flex-col items-center gap-3 mt-6">
     <div class="flex gap-3">
-      <button id="addBtn" class="bg-main text-white px-5 py-3 rounded-xl shadow hover-bg-main transition">+ إضافة مهمة</button>
-      <button id="doneAllBtn" class="bg-emerald text-white px-5 py-3 rounded-xl shadow hover:bg-green-600 transition">✓ تم الكل</button>
+      <button id="addBtn" class="bg-main-gradient text-white px-5 py-3 rounded-xl shadow hover-bg-main-gradient transition transform active:scale-95">+ إضافة مهمة</button>
+      <button id="doneAllBtn" class="bg-emerald-gradient text-white px-5 py-3 rounded-xl shadow hover:bg-green-600 transition transform active:scale-95">✓ تم الكل</button>
     </div>
     <button onclick="window.location.href='Home.html'" class="text-accent font-semibold mt-2 hover:underline">
-      ← الرجوع للقائمة
+      ← الرجوع للرئيسية
     </button>
   </div>
 </div>
 
-<!-- نافذة الإضافة -->
 <div id="modal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center p-4 z-50">
   <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6">
     <h2 id="modalTitle" class="text-lg font-bold text-main mb-4">إضافة مهمة</h2>
@@ -137,13 +128,12 @@
       </div>
       <div class="flex justify-end gap-2 mt-4">
         <button type="button" id="cancelModal" class="px-4 py-2 rounded-lg border hover:bg-gray-50">إلغاء</button>
-        <button type="submit" class="px-4 py-2 rounded-lg bg-main text-white">حفظ</button>
+        <button type="submit" class="px-4 py-2 rounded-lg bg-main-gradient text-white">حفظ</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Navbar -->
 <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 rounded-t-xl z-40">
   <div class="flex justify-around py-2">
     <a href="home.html" class="flex flex-col items-center text-gray-600 hover:text-main">
@@ -201,35 +191,36 @@ const emptyMsg = document.getElementById("emptyMsg");
 const currentDate = document.getElementById("currentDate");
 
 function render() {
-  currentDate.textContent = "التاريخ: " + state.date;
+  const today = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  currentDate.textContent = today.toLocaleDateString('ar-EG', options);
+  
   tasksList.innerHTML = "";
   if (state.items.length === 0) { emptyMsg.style.display = "block"; return; }
+  
   emptyMsg.style.display = "none";
   state.items.sort((a,b) => a.time.localeCompare(b.time));
-  const now = new Date();
 
   state.items.forEach((it, idx) => {
-    const [h,m] = it.time.split(":").map(Number);
-    const taskTime = new Date(); taskTime.setHours(h,m,0,0);
-    let bgClass = "bg-green-50";
-    if (taskTime < now) bgClass = "bg-red-100";
-    else if (taskTime - now <= 60000) bgClass = "bg-gray-100";
-    else if (taskTime - now <= 3600000) bgClass = "bg-yellow-100";
+    let bgClass = "bg-white"; // Default for future tasks
+    if (it.done) {
+        bgClass = "bg-green-100 opacity-70";
+    }
 
     const div = document.createElement("div");
     div.className = `p-4 border rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 fade-in-up ${bgClass}`;
     div.dataset.idx = idx;
     div.innerHTML = `
       <div>
-        <p class="font-semibold text-[#08757c]">${it.time} — ${it.title}</p>
-        <p class="text-sm text-gray-600">${it.desc || ""}</p>
+        <p class="font-semibold text-main ${it.done ? 'line-through' : ''}">${it.time} — ${it.title}</p>
+        <p class="text-sm text-gray-600 ${it.done ? 'line-through' : ''}">${it.desc || ""}</p>
       </div>
-      <div class="flex gap-2">
-        <button class="editBtn px-3 py-1 border rounded-lg text-sm" data-idx="${idx}">تعديل</button>
-        <button class="doneBtn px-3 py-1 border rounded-lg text-sm ${it.done ? 'bg-green-200 text-green-800' : ''}" data-idx="${idx}">
-          ${it.done ? "✓ مكتمل" : "تم"}
+      <div class="flex gap-2 self-end sm:self-center">
+        <button class="editBtn px-3 py-1 border rounded-lg text-sm bg-gray-50 hover:bg-gray-100" data-idx="${idx}">تعديل</button>
+        <button class="doneBtn px-3 py-1 border rounded-lg text-sm bg-green-500 text-white" data-idx="${idx}">
+          ${it.done ? "إلغاء" : "تم"}
         </button>
-        <button class="delBtn px-3 py-1 border rounded-lg text-sm text-red-600" data-idx="${idx}">حذف</button>
+        <button class="delBtn px-3 py-1 border rounded-lg text-sm text-red-600 bg-red-50 hover:bg-red-100" data-idx="${idx}">حذف</button>
       </div>
     `;
     tasksList.appendChild(div);
@@ -252,28 +243,34 @@ function openModal(item=null, idx=null) {
     editIndex = idx;
   } else {
     modalTitle.textContent = "إضافة مهمة";
-    timeInput.value = ""; titleInput.value = ""; descInput.value = ""; editIndex = null;
+    taskForm.reset();
+    editIndex = null;
   }
 }
 function closeModal(){ modal.classList.add("hidden"); modal.style.display="none"; }
 document.getElementById("cancelModal").addEventListener("click", closeModal);
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
 
 taskForm.addEventListener("submit",(e)=>{
   e.preventDefault();
   const time = timeInput.value; const title = titleInput.value.trim(); const desc = descInput.value.trim();
   if(!time || !title){ alert("أدخل الوقت والعنوان"); return; }
 
-  const [h,m] = time.split(":").map(Number);
-  const chosen = new Date(); chosen.setHours(h,m,0,0);
-  if(chosen < new Date()){ alert("لا يمكنك إضافة وقت قد مضى."); return; }
-
-  if(editIndex!==null){ state.items[editIndex] = {time,title,desc,done:false}; }
+  if(editIndex!==null){ 
+      state.items[editIndex] = {...state.items[editIndex], time, title, desc}; 
+  }
   else { state.items.push({time,title,desc,done:false}); }
   saveState(); render(); closeModal();
 });
 
 document.addEventListener("click",(e)=>{
   if(e.target.matches(".delBtn")){
+    if (!confirm("هل أنت متأكد من حذف هذه المهمة؟")) return;
     const card = e.target.closest("div[data-idx]");
     card.classList.add("swipe-out");
     setTimeout(()=>{
@@ -289,13 +286,18 @@ document.addEventListener("click",(e)=>{
   if(e.target.matches(".doneBtn")){
     const idx = +e.target.dataset.idx;
     state.items[idx].done = !state.items[idx].done;
-    saveState(); render();
-    e.target.closest("div[data-idx]").classList.add("pulse-done");
-    setTimeout(()=>e.target.closest("div[data-idx]").classList.remove("pulse-done"),800);
+    saveState(); 
+    const card = e.target.closest("div[data-idx]");
+    if (state.items[idx].done) {
+        card.classList.add("pulse-done");
+        setTimeout(() => card.classList.remove("pulse-done"), 800);
+    }
+    render();
   }
 });
 
 document.getElementById("doneAllBtn").addEventListener("click",()=>{
+  if (!confirm("هل أنت متأكد من إكمال جميع المهام؟")) return;
   state.items.forEach(it=>it.done=true);
   saveState(); render();
   document.querySelectorAll("[data-idx]").forEach(el=>{
@@ -307,7 +309,18 @@ document.getElementById("doneAllBtn").addEventListener("click",()=>{
 function scheduleMidnightClear(){
   const now=new Date(); const next=new Date(now);
   next.setDate(now.getDate()+1); next.setHours(0,0,5,0);
-  setTimeout(()=>{ state={date:todayStr(),items:[]}; saveState(); render(); scheduleMidnightClear(); }, next-now);
+  setTimeout(()=>{ 
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed.date !== todayStr()) {
+              state = { date: todayStr(), items: [] };
+              saveState();
+              render();
+          }
+      }
+      scheduleMidnightClear(); 
+  }, next-now);
 }
 
 function init(){ loadState(); render(); scheduleMidnightClear(); }

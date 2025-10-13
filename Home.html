@@ -207,29 +207,28 @@
       color: #168dfa; 
     }
 
-    .logo-container { /* هذا الكلاس الجديد للحاوية */
+    .logo-container {
       filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
       transition: transform 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 90px; /* حجم الحاوية */
-      height: 85px; /* حجم الحاوية */
-      background-color: white; /* خلفية بيضاء دائرية */
-      border-radius: 99px; /* لجعلها دائرية بالكامل */
-      flex-shrink: 0; /* لمنعها من التقلص */
-      box-shadow: 0 0 0 4px rgba(255,255,255,0.4); /* إطار أبيض حول الدائرة */
+      width: 90px;
+      height: 85px;
+      background-color: white;
+      border-radius: 99px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.4);
     }
 
     .logo-container:hover {
       transform: scale(1.05);
     }
 
-    .logo-header { /* اللوجو نفسه داخل الحاوية */
-      height: 90%; /* يجعل اللوجو يملأ 70% من حجم الحاوية */
+    .logo-header {
+      height: 100%;
       width: auto;
     }
-
 
     .gradient-card {
       background: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
@@ -319,20 +318,23 @@
             <img src="assets/logo.webp" alt="شعار اتزان" class="logo-header">
           </div>
           <div class="text-right">
-            <div class="text-xl font-bold welcome-text">أهلاً بك</div>
+            <div class="text-xl font-bold welcome-text">أهلاً بيك</div>
             <span id="adhdResult" class="text-sm opacity-95 block mt-1"></span>
+            <button onclick="window.location.href='test.html'" class="text-sm opacity-95 mt-2 bg-white/20 px-3 py-1.5 rounded-lg hover:bg-white/30 transition flex items-center gap-1">
+              ↻ اعد الاختبار تاني
+            </button>          
           </div>
         </div>
       </header>
 
       <main class="p-6 space-y-6">
-        <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">التقدم اليومي</h2>
+        <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">التقدم النهاردة</h2>
 
         <div class="grid grid-cols-2 gap-4">
           <div class="rounded-2xl p-5 card-shadow gradient-card bg-gradient-to-br from-[#10b981] to-[#a7f3d0]">
             <div class="text-white relative z-10">
               <div id="tasksPercent" class="text-2xl font-bold mb-1">0%</div>
-              <div class="text-sm opacity-90">المهام اليومية</div>
+              <div class="text-sm opacity-90">مهام النهاردة</div>
             </div>
             <div class="mt-3 progress-track relative z-10">
               <div id="tasksBar" class="progress-bar bg-white"></div>
@@ -352,7 +354,7 @@
         <div class="space-y-4">
           <button onclick="window.location.href='schedule.html'" 
                   class="w-full rounded-2xl p-5 h-16 bg-[#168dfa] text-white text-lg font-bold card-shadow transition transform active:scale-95">
-            اضبط جدولك
+            ظبط جدولك
           </button>
           <button id="motivate" 
                   class="w-full rounded-2xl p-5 h-16 bg-gradient-to-r from-[#168dfa] to-[#5DAAB7] text-white text-lg font-bold card-shadow transition transform active:scale-95">
@@ -362,7 +364,7 @@
 
         <div class="rounded-2xl p-5 bg-white card-shadow">
           <div class="flex items-center justify-between mb-4">
-            <div class="text-xl font-bold text-gray-800">جدول اليوم</div>
+            <div class="text-xl font-bold text-gray-800">جدول النهاردة</div>
             <a href="schedule.html" class="text-gray-400 transition transform active:scale-90 hover:text-[#168dfa]">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m3 4h-14a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2z"/>
@@ -370,7 +372,7 @@
             </a>
           </div>
           <div id="schedulePreview" class="space-y-3 text-sm text-gray-500">
-            <p class="text-center p-4">تحميل المهام...</p>
+            <p class="text-center p-4">بيحمل المهام...</p>
           </div>
         </div>
 
@@ -378,7 +380,7 @@
              class="rounded-2xl p-6 decision-card text-white flex items-center justify-between card-shadow transition transform hover:scale-105 active:scale-100 cursor-pointer">
           <div class="text-right relative z-10">
             <div class="font-bold text-xl mb-1">اتخذ قرار!</div>
-            <div class="text-sm opacity-95">متردد في قرار؟ دعنا نساعدك</div>
+            <div class="text-sm opacity-95">متردد في قرار؟ تعالى نساعدك</div>
           </div>
           <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center icon-pulse relative z-10">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="white">
@@ -442,12 +444,12 @@
 
   <script>
     const quotes = [
-      "خذ الأمور خطوة بخطوة، ليس عليك إنجاز كل شيء دفعة واحدة.",
-      "التنظيم يساعدك على السيطرة، ولو بخطوات صغيرة.",
-      "الراحة جزء من الإنتاجية، لا تنس أن تعطي نفسك وقتًا.",
-      "أنت قادر على الإنجاز، فقط قسم المهام واجعلها أبسط.",
-      "كل خطوة صغيرة تقربك من هدفك الكبير.",
-      "النجاح ليس في السرعة، بل في الاستمرارية والثبات."
+      "خد الأمور خطوة بخطوة، مش لازم تخلص كل حاجة مرة واحدة",
+      "التنظيم هيساعدك تسيطر على الموضوع، ولو بخطوات صغيرة",
+      "الراحة جزء من الإنتاجية، متنساش تدي نفسك وقت",
+      "انت قادر تخلص، بس قسم المهام واعملها أبسط",
+      "كل خطوة صغيرة بتقربك من هدفك الكبير",
+      "النجاح مش في السرعة، في الاستمرارية والثبات"
     ];
 
     const popup = document.getElementById("popup");
@@ -471,7 +473,6 @@
         }
     });
 
-    // Function to render schedule preview
     function renderSchedulePreview() {
       const LS_KEY = "dailySchedule_v2";
       const today = new Date().toISOString().slice(0,10);
@@ -481,7 +482,7 @@
 
       const raw = localStorage.getItem(LS_KEY);
       if(!raw){ 
-          preview.innerHTML = "<p class='text-center p-4 text-gray-400'>لا توجد مهام حتى الآن</p>"; 
+          preview.innerHTML = "<p class='text-center p-4 text-gray-400'>مفيش مهام لحد دلوقتي</p>"; 
           percentEl.textContent="0%"; 
           barEl.style.width = "0%";
           return; 
@@ -489,7 +490,7 @@
 
       const parsed = JSON.parse(raw);
       if(parsed.date !== today || !parsed.items || parsed.items.length===0){
-        preview.innerHTML = "<p class='text-center p-4 text-gray-400'>لا توجد مهام حتى الآن</p>"; 
+        preview.innerHTML = "<p class='text-center p-4 text-gray-400'>مفيش مهام لحد دلوقتي</p>"; 
         percentEl.textContent="0%"; 
         barEl.style.width = "0%";
         return;
@@ -518,37 +519,34 @@
       }, 100);
     }
 
-    // Function to render challenges progress
     function renderChallengesProgress() {
       const maxChallenges = 5;
       const taken = parseInt(localStorage.getItem("takenCount")||"0");
-      let percent = Math.min(100, Math.round((taken / maxChallenges) * 100));
+      let percent = Math.min(100, (taken / maxChallenges) * 100);
 
-      document.getElementById("challengesPercent").textContent = percent + "%";
+      // عرض عدد القرارات من 5
+      document.getElementById("challengesPercent").textContent = taken + "/5";
       setTimeout(() => {
         document.getElementById("challengesBar").style.width = percent + "%";
       }, 100);
     }
     
-    // Function to show ADHD result
     function showADHDResult() {
         const whoResult = localStorage.getItem("whoResult");
         const resultEl = document.getElementById("adhdResult");
         if (whoResult) {
             resultEl.textContent = "نتيجة اختبار ADHD: " + whoResult;
         } else {
-            resultEl.textContent = "لم تقم باختبار ADHD بعد";
+            resultEl.textContent = "لسه معملتش اختبار ADHD";
         }
     }
 
-    // Initial render on page load
     document.addEventListener('DOMContentLoaded', () => {
         renderSchedulePreview();
         renderChallengesProgress();
         showADHDResult();
     });
 
-    // Re-render when returning to the page
     window.addEventListener('focus', () => {
         renderSchedulePreview();
         renderChallengesProgress();

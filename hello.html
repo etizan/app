@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YWVH5NZPCJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-YWVH5NZPCJ');
+  </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>استعيد توازنك</title>
@@ -126,10 +135,16 @@
     const loginButton = document.getElementById("loginBtn");
     const signupButton = document.getElementById("signupBtn");
 
-    loginButton.addEventListener("click", function() {
-      addClickPulse(this);
-      setTimeout(() => { window.location.href = "test.html"; }, 150);
+  loginButton.addEventListener("click", function() {
+    // إرسال حدث إلى Google Analytics
+    gtag('event', 'button_click', {
+      'event_category': 'Engagement',
+      'event_label': 'Start Test Button'
     });
+
+    addClickPulse(this);
+    setTimeout(() => { window.location.href = "test.html"; }, 150);
+  });
 
     signupButton.addEventListener("click", function() {
       addClickPulse(this);

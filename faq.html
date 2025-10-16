@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>اتزان - أسئلة هتفيدك</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f9fdfd 0%, #e6faff 50%, #f0fcfb 100%);
+      font-family: 'Cairo', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .device {
+      width: 100%; max-width: 420px; min-height: 844px; margin: 20px auto;
+    }
+    header {
+      background: linear-gradient(135deg, #168dfa 0%, #5DAAB7 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-shadow { 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s ease;
+      position: relative; overflow: hidden;
+      cursor: pointer;
+    }
+    .card-shadow:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+    }
+    .logo-container {
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 65px;
+      height: 60px;
+      background-color: white;
+      border-radius: 99px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.4);
+    }
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+    .logo-header {
+      height: 100%;
+      width: auto;
+    }
+    .fade-in { 
+      animation: fadeInUp 0.5s ease; 
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .answer-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+      opacity: 0;
+      padding-top: 0;
+    }
+    .answer-content.active {
+      max-height: 500px; /* Large enough to accommodate the answer */
+      opacity: 1;
+      padding-top: 1rem;
+    }
+    .question-box {
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .question-box:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body class="p-4">
+  <div class="device fade-in">
+    <div class="w-full mx-auto bg-white rounded-3xl overflow-hidden shadow-2xl">
+
+      <header class="p-6 text-white shadow-xl rounded-b-3xl relative z-10">
+        <div class="flex items-center justify-between relative z-10">
+          <a href="home.html" class="logo-container">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-[#168dfa]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+            </svg>
+          </a>
+          <div class="text-right">
+            <div class="text-2xl font-bold welcome-text">أسئلة ممكن تفيدك</div>
+          </div>
+        </div>
+      </header>
+
+      <main class="p-6 space-y-6">
+        <section>
+          <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">تنظيم الوقت</h2>
+          <div class="rounded-2xl p-0 bg-white card-shadow divide-y divide-gray-100">
+            <div class="question-box p-5" data-faq-id="1">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">ازاي أنظم وقتي ومهامي عشان يومي مايكونش كله لخبطة وضياع؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-1" class="answer-content">
+                <div class="text-gray-600 text-sm">اكتب قائمة بالمهام اللي عايز تعملها (على ورقة أو في موبايلك)، وحط مواعيد محددة لكل مهمة. قبل ما تنام، خطط يومك الجاي وثبت روتين ثابت كل يوم. كل حاجة خليها في مكانها (زي المفاتيح والمحفظة) عشان ماتنساش الأمور المهمة.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="2">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">دائمًا ببقى متأخر في البدء وبحس إن يومي ضاع، أعمل إيه؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-2" class="answer-content">
+                <div class="text-gray-600 text-sm">جرب تقوم بدري وتبدأ بحاجة بتحبها أو سهلة شوية. لما تبدأ مهام صغيرة الأول، حيكون عندك حافز تكمل بقية المهام في اليوم. حدد موعد معين لإنهاء المهمة بوضوح، وقل لنفسك مثلاً “هخلص ده قبل الساعة ٦”.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="3">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">بنسى مواعيد مهمة وأنا خارج، أعمل إيه؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-3" class="answer-content">
+                <div class="text-gray-600 text-sm">سجّل المواعيد في تطبيق موبايل أو مفكرة، وابعت لنفسك تذكير. الكتابة بتملي المخاطرة بنسيان أقل، وجود نظام ثابت (زي حفظ المفاتيح في مكان واحد) بيساعدك تلاقي حاجتك بسرعة.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">التسويف والإنجاز</h2>
+          <div class="rounded-2xl p-0 bg-white card-shadow divide-y divide-gray-100">
+            <div class="question-box p-5" data-faq-id="4">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي ما أتأخرش في إنجاز المهمة ومابأسوّيش؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-4" class="answer-content">
+                <div class="text-gray-600 text-sm">حط لكل مهمة موعد نهائي واضح وكأنها اتفاق ملزم. لما تحط “هخلص ده قبل العصر” مثلاً، هتحس بضغط خفيف ينهي المهمة في المعاد. كمان قسم المهمة لأجزاء صغيرة وابدأ بالأصعب في وقت نشاطك.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="5">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي أحفّز نفسي أخلص الشغل؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-5" class="answer-content">
+                <div class="text-gray-600 text-sm">جرب نظام “متى/ثم” (When/Then). يعني لما تخلص المهمة المتفق عليها، كافئ نفسك بحاجة بتحبها (بعدها اتفرّج على فيديو طريف أو خلص حلوياتك المفضلة). حتى المكافآت البسيطة بتحفز دماغك على الإنجاز.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="6">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">بمل بسرعة من العمل الممل، إزاي أثبت؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-6" class="answer-content">
+                <div class="text-gray-600 text-sm">قسّم العمل لحاجات صغيرة، وخد استراحات قصيرة بينهم. لو بتمل من حاجة، غيّر النشاط بوقتك: مثلاً بعد ٢٠ دقيقة تركيز خد ٥ دقايق تمشي فيها أو تنفّس نفس عميق. كده الدماغ بتاعك ميحسش بالملل بسرعة.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">التركيز في الشغل والمذاكرة</h2>
+          <div class="rounded-2xl p-0 bg-white card-shadow divide-y divide-gray-100">
+            <div class="question-box p-5" data-faq-id="7">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي أركز وأنا بشتغل وسط الموبايل والإشعارات؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-7">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-7" class="answer-content">
+                <div class="text-gray-600 text-sm">اقفل الإشعارات وخلي الموبايل في وضع صامت أو في غرفة تانية وقت المذاكرة. اتبع أسلوب فترات عمل قصيرة (مثلاً ٢٥ دقيقة عمل، ٥ دقايق استراحة). كده هتقدر تركز أكتر لأن دماغك مش مشغول بالتشتتات.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="8">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">لو حد كلمني وأنا مركز، أعمل إيه؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-8">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-8" class="answer-content">
+                <div class="text-gray-600 text-sm">قول للناس اللي حواليك إنك مشغول شوية وتركز، وكمل شغلك في مكان هادي. فتح مفاتيح التركيز بيجبرك تشتغل مهمة واحدة في المرة، خليك بعيد عن الملهيات.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="9">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي أشتغل على حاجة واحدة من غير ما تشدني حاجة تانية؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-9">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-9" class="answer-content">
+                <div class="text-gray-600 text-sm">ابدأ بالشغل على زمن محدد، مثلاً “هذاكر ١٠ دقايق”، وبعدين قيس نفسك إذا نفسك تكمّل. كل ما تقسم المهمة لفترات صغيرة وتدي لنفسك فترات راحة قصيرة، هيبقى أسهل تركز وتنجز.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">العلاقات الاجتماعية</h2>
+          <div class="rounded-2xl p-0 bg-white card-shadow divide-y divide-gray-100">
+            <div class="question-box p-5" data-faq-id="10">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي أخلي صحابي يفهموا عندي ADHD؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-10">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-10" class="answer-content">
+                <div class="text-gray-600 text-sm">كلِّم أصحابك بشكل بسيط، قوللهم إن دماغك بتفكر في حاجات كتير مرة وحدة. ده بيخليهم صبورين وتفاهمكم أحسن. خليك واضح لو محتاج مسافة أو تحب تكلم شوية، وهما هيعرفوا يساعدوك.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="11">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">أنا بتكلم بسرعة وأنسى مثلاً ملامح الناس، أعمل إيه؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-11">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-11" class="answer-content">
+                <div class="text-gray-600 text-sm">خُد نفس قبل ما تتكلم وحاول تتمهل شوية. لو نسيت حاجة مهمّة، ماتقلقش وضّح كلامك بعدين، واعتذر لو لزم الأمر. التدرّب على الهدوء في الكلام هيساعد الناس حواليك تتقبّلك أكتر.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="12">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي أحافظ على علاقاتي من غير ما أتوتّر؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-12">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-12" class="answer-content">
+                <div class="text-gray-600 text-sm">خليك صريح مع اللي حواليك. لو مستمرة معاك محادثة طويلة أو نشاط معين، قول إنك محتاج وقفة أو وقت هادي. حاول تشارك في أنشطة بسيطة مع أصحابك أو أهلك (زي قعدة قهوة أو نزهة) عشان تحس بالدعم.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-right font-bold text-2xl text-gray-800 mb-4">النوم والصحة العقلية</h2>
+          <div class="rounded-2xl p-0 bg-white card-shadow divide-y divide-gray-100">
+            <div class="question-box p-5" data-faq-id="13">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">إزاي أخلق روتين نوم صحي؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-13">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-13" class="answer-content">
+                <div class="text-gray-600 text-sm">نظم معاد ثابت للنوم والاستيقاظ حتى في الويك إند، وابعد عن الشاشات قبل النوم بنص ساعة. جرّب تعمل روتين مريح زي شرب شاي أعشاب أو قراءة كتاب، وحاول تنام ٧-٨ ساعات.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="14">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">قلة النوم بتأثر علي إزاي؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-14">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-14" class="answer-content">
+                <div class="text-gray-600 text-sm">قلة النوم بتخلي تركيزك ضعيف وطاقتك قليلة. كل ما تنظم نومك وتحصل على وقت كافي، هتحس بمزاج أحسن وانتباه أقوى خلال اليوم.</div>
+              </div>
+            </div>
+            <div class="question-box p-5" data-faq-id="15">
+              <div class="flex justify-between items-start">
+                <div class="text-base font-semibold text-gray-800 flex-1">بقلق كتير وأحس بتوتر، أعمل إيه؟</div>
+                <button class="toggle-btn flex-shrink-0 mr-4 text-[#168dfa] transition transform active:scale-90 hover:text-blue-600" data-target="answer-15">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 plus-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 minus-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                  </svg>
+                </button>
+              </div>
+              <div id="answer-15" class="answer-content">
+                <div class="text-gray-600 text-sm">جرب تمارين تنفس بسيطة: خد نفس عميق من بطنك كم مرة. كمان مارس رياضة خفيفة (مشي أو جري شوية) بانتظام، لأن الرياضة بتطلق هرمونات مفرحة في المخ. لو القلق كبير، متترددش تحكي مع دكتور نفسي.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleButtons = document.querySelectorAll('.toggle-btn');
+
+      toggleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const targetId = button.getAttribute('data-target');
+          const targetElement = document.getElementById(targetId);
+          const plusIcon = button.querySelector('.plus-icon');
+          const minusIcon = button.querySelector('.minus-icon');
+          
+          // Close all other open answers
+          document.querySelectorAll('.answer-content.active').forEach(openAnswer => {
+            if (openAnswer.id !== targetId) {
+              openAnswer.classList.remove('active');
+              const associatedButton = document.querySelector(`[data-target="${openAnswer.id}"]`);
+              associatedButton.querySelector('.plus-icon').classList.remove('hidden');
+              associatedButton.querySelector('.minus-icon').classList.add('hidden');
+            }
+          });
+
+          // Toggle the clicked answer
+          const isActive = targetElement.classList.toggle('active');
+
+          if (isActive) {
+            plusIcon.classList.add('hidden');
+            minusIcon.classList.remove('hidden');
+          } else {
+            plusIcon.classList.remove('hidden');
+            minusIcon.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
